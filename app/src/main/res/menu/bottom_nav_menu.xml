@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_numbers"
+        android:icon="@drawable/ic_list_black_24dp"
+        android:title="@string/title_numbers" />
+
+    <item
+        android:id="@+id/navigation_logs"
+        android:icon="@drawable/ic_baseline_playlist_add_check_24"
+        android:title="@string/title_logs" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/title_settings" />
+
+</menu>

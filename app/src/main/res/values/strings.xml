@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Monitor Internetless</string>
+    <string name="title_numbers">Numbers</string>
+    <string name="title_numbers_full">Authorized Numbers</string>
+    <string name="title_logs">Logs</string>
+    <string name="title_settings">Settings</string>
+</resources>

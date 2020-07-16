@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_logs"
-        android:name="fr.themsou.monitorinternetless.ui.logs.LogsFragment"
-        android:label="@string/title_logs"
-        tools:layout="@layout/fragment_logs" />
+        android:name="fr.themsou.monitorinternetless.ui.commands.CommandsFragment"
+        android:label="@string/title_commands"
+        tools:layout="@layout/fragment_commands" />
 
     <fragment
         android:id="@+id/navigation_settings"

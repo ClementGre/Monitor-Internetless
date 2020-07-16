@@ -1,17 +1,16 @@
-package fr.themsou.monitorinternetless.ui.numbers;
+package fr.themsou.monitorinternetless.ui.commands;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NumbersViewModel extends ViewModel {
+public class CommandsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NumbersViewModel() {
-
+    public CommandsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is Commands fragment");
     }
 
     public LiveData<String> getText() {

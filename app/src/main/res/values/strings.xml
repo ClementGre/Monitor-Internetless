@@ -1,4 +1,5 @@
 <resources>
+    <string name="preference_file_key">fr.themsou.monitorinternetless.PREFERENCE_FILE_KEY</string>
     <string name="app_name">Monitor Internetless</string>
     <string name="title_numbers">Numbers</string>
     <string name="title_numbers_full">Authorized Numbers</string>
@@ -13,4 +14,21 @@
     <string name="addnumber_contact">Depuis les contacts</string>
     <string name="number_input_owner">Nom</string>
     <string name="number_input_number">Numéro</string>
+    <string name="number_do_not_have_number">Ce contact n\'a pas de numéro de téléphone</string>
+    <string name="command_desc_info">Envoie des informations sur le téléphone : niveau de batterie, position approximative etc.</string>
+    <string name="command_title_info">!info</string>
+    <string name="command_title_locate">!locate</string>
+    <string name="command_desc_locate">Envoie la position GPS du téléphone. Cela active automatiquement le GPS.</string>
+    <string name="command_title_eco"><![CDATA[!eco <on/off>]]></string>
+    <string name="command_desc_eco">Active ou désactive le mode économie d\'énergie du téléphone.</string>
+    <string name="command_title_mobile"><![CDATA[!mobile <on/off>]]></string>
+    <string name="command_desc_mobile">"Active ou désactive les données mobiles ( 4G, 5G etc. ). "</string>
+    <string name="command_title_gps"><![CDATA[!gps <on/off>]]></string>
+    <string name="command_desc_gps">Active ou désactive le GPS (la position)</string>
+    <string name="command_title_bluetooth"><![CDATA[!bluetooth <on/off>]]></string>
+    <string name="command_title_wifi"><![CDATA[!wifi <on/off>]]></string>
+    <string name="command_desc_wifi">Active ou désactive le Wifi</string>
+    <string name="command_desc_bluetooth">Active ou désactive le Bluetooth</string>
+    <string name="commandstab_description">Liste des commandes disponibles. Pour les exécuter, il faut les envoyer à ce téléphone par SMS avec un numéro autorisé.\nPar exemple, le message \"!mobile on\" va activer les donnés mobiles sur ce téléphone.</string>
+
 </resources>

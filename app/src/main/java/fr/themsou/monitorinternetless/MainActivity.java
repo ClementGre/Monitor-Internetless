@@ -58,9 +58,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if(requestCode >= PERMISSION_REQUESTER_START && requestCode <= PERMISSION_REQUESTER_END){
-            //Log.d(TAG, "onRequestPermissionsResult: grantResults = " + Arrays.toString(grantResults));
-            //Log.d(TAG, "onRequestPermissionsResult: permissions  = " + Arrays.toString(permissions));
-            permissionRequester.receiveActivityResult(requestCode, grantResults[0] == PackageManager.PERMISSION_GRANTED);
+            boolean grant = true;
+            for(int grantResult : grantResults ){
+                grant = grant && (grantResult == PackageManager.PERMISSION_GRANTED);
+            }
+            permissionRequester.receiveActivityResult(requestCode, grant);
         }
     }
 }

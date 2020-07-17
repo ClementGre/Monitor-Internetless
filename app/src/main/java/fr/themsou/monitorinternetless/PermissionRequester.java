@@ -20,7 +20,7 @@ public class PermissionRequester {
     public void receiveActivityResult(int requestCode, boolean accepted){
         if(currentRequests.containsKey(requestCode)){
             if(requestCode < 3000){
-                currentRequests.get(requestCode).accept(true);
+                currentRequests.get(requestCode).accept(accepted);
             }else{
                 if(accepted) currentRequests.get(requestCode).accept(true);
             }
@@ -30,6 +30,13 @@ public class PermissionRequester {
 
     public boolean isGranted(String permissionCode){
         return ContextCompat.checkSelfPermission(activity, permissionCode) == PackageManager.PERMISSION_GRANTED;
+    }
+    public boolean isGranted(String... permissionsCode){
+        boolean grant = true;
+        for(String permissionCode : permissionsCode){
+            grant = (ContextCompat.checkSelfPermission(activity, permissionCode) == PackageManager.PERMISSION_GRANTED) && grant;
+        }
+        return grant;
     }
 
     public void grant(String permissionCode){
@@ -45,8 +52,6 @@ public class PermissionRequester {
         }else{
             callBack.accept(true);
         }
-
-
     }
     public void grantOnly(String permissionCode, Consumer<Boolean> grantedCallBack){
         if(!isGranted(permissionCode)){
@@ -58,4 +63,26 @@ public class PermissionRequester {
         }
     }
 
+    public void grantSome(String... permissions){
+        if(!isGranted(permissions))
+            ActivityCompat.requestPermissions(activity, permissions, 2000);
+    }
+    public void grantSome(String[] permissions, Consumer<Boolean> callBack){
+        if(!isGranted(permissions)){
+            int requestCode = 2000 + new Random().nextInt(1000); // 2000 - 2999
+            ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            currentRequests.put(requestCode, callBack);
+        }else{
+            callBack.accept(true);
+        }
+    }
+    public void grantSomeOnly(String[] permissions, Consumer<Boolean> grantedCallBack){
+        if(!isGranted(permissions)){
+            int requestCode = 3000 + new Random().nextInt(1000); // 3000 - 3999
+            ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            currentRequests.put(requestCode, grantedCallBack);
+        }else{
+            grantedCallBack.accept(null);
+        }
+    }
 }

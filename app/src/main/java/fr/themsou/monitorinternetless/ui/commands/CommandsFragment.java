@@ -1,36 +1,74 @@
 package fr.themsou.monitorinternetless.ui.commands;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.ArrayList;
+
 import fr.themsou.monitorinternetless.MainActivity;
 import fr.themsou.monitorinternetless.R;
+import fr.themsou.monitorinternetless.ui.numbers.Number;
+import fr.themsou.monitorinternetless.ui.numbers.NumbersListAdapter;
 
 public class CommandsFragment extends Fragment {
 
-    private CommandsViewModel commandsViewModel;
+    private ListView listView;
+    private CommandsListAdapter adapter;
+    private String TAG = "CommandsFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).getTopToolBar().setTitle(getString(R.string.title_commands));
 
-        commandsViewModel = ViewModelProviders.of(this).get(CommandsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_commands, container, false);
-        final TextView textView = root.findViewById(R.id.text_commands);
-        commandsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        final LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+
+        listView = root.findViewById(R.id.command_listview);
+        listView.addHeaderView(layoutInflater.inflate(R.layout.header_commands, null));
+
+        adapter = new CommandsListAdapter(getContext(), ((MainActivity) getActivity()), getCommands());
+        listView.setAdapter(adapter);
+
+
         return root;
+    }
+
+    private ArrayList<Command> getCommands(){
+        ArrayList<Command> commands = new ArrayList<>();
+
+        commands.add(new Command("info", R.drawable.ic_baseline_info_24, R.string.command_title_info, R.string.command_desc_info,
+                (MainActivity) getActivity(), Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_COARSE_LOCATION));
+
+        commands.add(new Command("locate", R.drawable.ic_baseline_gps_fixed_24, R.string.command_title_locate, R.string.command_desc_locate,
+                (MainActivity) getActivity(), Manifest.permission.ACCESS_FINE_LOCATION));
+
+        commands.add(new Command("eco", R.drawable.ic_baseline_battery_charging_full_24, R.string.command_title_eco, R.string.command_desc_eco,
+                (MainActivity) getActivity(), Manifest.permission.CHANGE_CONFIGURATION));
+
+        commands.add(new Command("mobile", R.drawable.ic_baseline_swap_vert_24, R.string.command_title_mobile, R.string.command_desc_mobile,
+                (MainActivity) getActivity(), Manifest.permission.CHANGE_NETWORK_STATE));
+
+        commands.add(new Command("gps", R.drawable.ic_baseline_location_on_24, R.string.command_title_gps, R.string.command_desc_gps,
+                (MainActivity) getActivity(), Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS));
+
+        commands.add(new Command("wifi", R.drawable.ic_baseline_wifi_24, R.string.command_title_wifi, R.string.command_desc_wifi,
+                (MainActivity) getActivity(), Manifest.permission.CHANGE_WIFI_STATE));
+
+        commands.add(new Command("bluetooth", R.drawable.ic_baseline_bluetooth_24, R.string.command_title_bluetooth, R.string.command_desc_bluetooth,
+                (MainActivity) getActivity(), Manifest.permission.BLUETOOTH_ADMIN));
+
+        return commands;
     }
 }

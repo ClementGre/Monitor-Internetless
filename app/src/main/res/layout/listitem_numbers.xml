@@ -15,19 +15,6 @@
         android:src="@drawable/ic_baseline_delete_outline_24" />
 
     <TextView
-        android:id="@+id/number_owner"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@id/delete_button"
-        android:layout_toEndOf="@id/delete_button"
-        android:ellipsize="marquee"
-        android:textSize="12sp"
-        android:singleLine="true"/>
-
-    <TextView
         android:id="@+id/number_number"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -39,6 +26,22 @@
         android:layout_toRightOf="@id/delete_button"
         android:layout_toEndOf="@id/delete_button"
         android:gravity="center_vertical"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"/>
+
+    <TextView
+        android:id="@+id/number_owner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@id/delete_button"
+        android:layout_toEndOf="@id/delete_button"
+        android:ellipsize="marquee"
+        android:textSize="12sp"
+        android:singleLine="true"
+        android:layout_marginBottom="3dp"/>
 
 </RelativeLayout>

@@ -16,12 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
-
-import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import fr.themsou.monitorinternetless.MainActivity;
@@ -93,7 +93,11 @@ public class NumbersFragment extends Fragment {
                     Uri result = data.getData();
                     if(result != null){
                         String[] contactInfo = getContactInfo(result.getLastPathSegment());
-                        adapter.addItem(new Number(contactInfo[0], contactInfo[1]));
+                        if(contactInfo != null){
+                            adapter.addItem(new Number(contactInfo[0], contactInfo[1]));
+                        }else{
+                            Toast.makeText(getContext(), R.string.number_do_not_have_number, Toast.LENGTH_LONG).show();
+                        }
                     }
                     break;
             }

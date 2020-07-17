@@ -40,6 +40,7 @@ public class NumbersListAdapter extends BaseAdapter {
     }
 
     public void removeItem(int position){
+        Number.removeNumber(context, items.get(position));
         items.remove(position);
         notifyDataSetChanged();
     }
@@ -49,11 +50,14 @@ public class NumbersListAdapter extends BaseAdapter {
             if(corresponding.getOwner().equals(number.getOwner())){
                 Toast.makeText(context, R.string.number_already_exist, Toast.LENGTH_LONG).show();
             }else{
+                Number.removeNumber(context, corresponding);
+                Number.addNumbers(context, number);
                 corresponding.setOwner(number.getOwner());
                 notifyDataSetChanged();
             }
         }else{
             items.add(number);
+            Number.addNumbers(context, number);
             notifyDataSetChanged();
         }
     }

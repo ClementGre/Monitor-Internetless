@@ -2,6 +2,7 @@ package fr.themsou.monitorinternetless;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -38,14 +39,14 @@ public class PermissionRequester {
     public boolean isGranted(String... permissionsCode){
         boolean grant = true;
         for(String permissionCode : permissionsCode){
-            grant = (ContextCompat.checkSelfPermission(activity, permissionCode) == PackageManager.PERMISSION_GRANTED) && grant;
+            grant = isGranted(permissionCode) && grant;
         }
         return grant;
     }
     public static boolean isGranted(Context context, String... permissionsCode){
         boolean grant = true;
         for(String permissionCode : permissionsCode){
-            grant = (ContextCompat.checkSelfPermission(context, permissionCode) == PackageManager.PERMISSION_GRANTED) && grant;
+            grant = isGranted(permissionCode, context) && grant;
         }
         return grant;
     }

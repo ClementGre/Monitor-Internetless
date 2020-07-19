@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class CommandsFragment extends Fragment {
 
     private ListView listView;
     private CommandsListAdapter adapter;
-    private String TAG = "CommandsFragment";
+    private static final String TAG = "CommandsFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,13 +52,14 @@ public class CommandsFragment extends Fragment {
     public static ArrayList<Command> getCommands(Context context){
         ArrayList<Command> commands = new ArrayList<>();
 
-        commands.add(new Command("info", R.drawable.ic_baseline_info_24, R.string.command_title_info, R.string.command_desc_info,
-                context, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_COARSE_LOCATION));
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            commands.add(new Command("info", R.drawable.ic_baseline_info_24, R.string.command_title_info, R.string.command_desc_info,
+                    context, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION));
             commands.add(new Command("locate", R.drawable.ic_baseline_gps_fixed_24, R.string.command_title_locate, R.string.command_desc_locate,
                     context, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION));
         }else{
+            commands.add(new Command("info", R.drawable.ic_baseline_info_24, R.string.command_title_info, R.string.command_desc_info,
+                    context, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_COARSE_LOCATION));
             commands.add(new Command("locate", R.drawable.ic_baseline_gps_fixed_24, R.string.command_title_locate, R.string.command_desc_locate,
                     context, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION));
         }

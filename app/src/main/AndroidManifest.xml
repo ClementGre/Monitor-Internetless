@@ -55,9 +55,14 @@
             </intent-filter>
         </activity>
 
+        <service android:enabled="true"
+            android:foregroundServiceType="location"
+            android:isolatedProcess="true"
+            android:name=".commander.SMSService" >
+        </service>
 
         <!-- SMS -->
-        <receiver android:name=".commander.SMSReceiver"
+        <receiver android:name="fr.themsou.monitorinternetless.commander.SMSReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
@@ -67,5 +72,7 @@
         </receiver>
 
     </application>
+
+
 
 </manifest>

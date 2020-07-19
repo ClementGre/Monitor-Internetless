@@ -9,10 +9,6 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import java.util.regex.Pattern;
-
-import fr.themsou.monitorinternetless.ui.commands.CommandsFragment;
-
 public class SMSReceiver extends BroadcastReceiver {
 
     private SharedPreferences preferences;
@@ -30,50 +26,21 @@ public class SMSReceiver extends BroadcastReceiver {
 
                     for(int i = 0; i < msgs.length; i++){
                         msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
+                        if(msgs[i].getMessageBody().startsWith("!")){
+                            final PendingResult pendingResult = goAsync();
+                            AsyncTask<String, Integer, String> asyncTask = new SMSTask(pendingResult, intent, context.getApplicationContext(), msgs[i].getOriginatingAddress(), msgs[i].getMessageBody());
+                            asyncTask.execute();
 
-                        final PendingResult pendingResult = goAsync();
-                        Task asyncTask = new Task(pendingResult, intent, context, msgs[i].getOriginatingAddress(), msgs[i].getMessageBody());
-                        asyncTask.execute();
+                        /*Intent serviceIntent = new Intent(context.getApplicationContext(), SMSTask.class);
+                        serviceIntent.putExtra("from", msgs[i].getOriginatingAddress());
+                        serviceIntent.putExtra("body", msgs[i].getMessageBody());
+                        context.startService(serviceIntent);*/
+                        }
                     }
                 }catch(Exception e){
                     Log.d("Exception caught", e.getMessage());
                 }
             }
-        }
-    }
-
-    private static class Task extends AsyncTask<String, Integer, String> {
-
-        private final PendingResult pendingResult;
-        private final Intent intent;
-        private final Context context;
-        private final String messageFrom;
-        private final String messageBody;
-
-        private Task(PendingResult pendingResult, Intent intent, Context context, String messageFrom, String messageBody) {
-            this.pendingResult = pendingResult;
-            this.intent = intent;
-            this.context = context;
-            this.messageFrom = messageFrom;
-            this.messageBody = messageBody;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            if(messageBody.startsWith("!")){
-                CommandExecutor executor = new CommandExecutor();
-                executor.execute(messageBody.split(Pattern.quote(" ")), context);
-            }
-
-            return "completed !";
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            // Must call finish() so the BroadcastReceiver can be recycled.
-            pendingResult.finish();
         }
     }
 

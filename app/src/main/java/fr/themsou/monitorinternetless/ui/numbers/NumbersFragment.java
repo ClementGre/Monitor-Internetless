@@ -37,7 +37,7 @@ public class NumbersFragment extends Fragment {
     private NumbersListAdapter adapter;
     private String TAG = "NumbersFragment";
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         ((MainActivity) getActivity()).getTopToolBar().setTitle(getString(R.string.title_numbers_full));
 
         View root = inflater.inflate(R.layout.fragment_numbers, container, false);
@@ -74,7 +74,7 @@ public class NumbersFragment extends Fragment {
                     .setView(inputs)
                     .setPositiveButton(getString(R.string.message_add), new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
-                            adapter.addItem(new Number(((EditText) inputs.findViewById(R.id.editTextTextPersonName)).getText().toString(), ((EditText) inputs.findViewById(R.id.editTextPhone)).getText().toString()));
+                            adapter.addItem(new Number(((EditText) inputs.findViewById(R.id.editTextTextPersonName)).getText().toString(), ((EditText) inputs.findViewById(R.id.editTextPhone)).getText().toString(), getActivity()));
                         }
                     }).setNegativeButton(getString(R.string.message_cancel), new DialogInterface.OnClickListener(){ @Override public void onClick(DialogInterface dialog, int which){} }).show();
             }
@@ -94,7 +94,7 @@ public class NumbersFragment extends Fragment {
                     if(result != null){
                         String[] contactInfo = getContactInfo(result.getLastPathSegment());
                         if(contactInfo != null){
-                            adapter.addItem(new Number(contactInfo[0], contactInfo[1]));
+                            adapter.addItem(new Number(contactInfo[0], contactInfo[1], getActivity()));
                         }else{
                             Toast.makeText(getContext(), R.string.number_do_not_have_number, Toast.LENGTH_LONG).show();
                         }

@@ -6,7 +6,8 @@
     android:layout_height="729dp"
     android:orientation="vertical"
     tools:layout_editor_absoluteX="1dp"
-    tools:layout_editor_absoluteY="1dp">
+    tools:layout_editor_absoluteY="1dp"
+    android:paddingHorizontal="15dp">
 
 
     <EditText

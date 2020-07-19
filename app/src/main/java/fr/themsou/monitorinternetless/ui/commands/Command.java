@@ -2,6 +2,7 @@ package fr.themsou.monitorinternetless.ui.commands;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Switch;
 
 import androidx.core.util.Consumer;
@@ -11,6 +12,8 @@ import fr.themsou.monitorinternetless.PermissionRequester;
 import fr.themsou.monitorinternetless.R;
 
 public class Command {
+
+    private static final String TAG = "Command";
 
     private String nameId;
 
@@ -51,7 +54,6 @@ public class Command {
         this.description = description;
         this.permissions = permissions;
         this.enabled = getEnableStatus(context) && hasPermission(context);
-
     }
 
     public void switchChange(final boolean isChecked, final MainActivity activity, final Switch switchEnable, final Consumer<Void> acceptChange) {
@@ -82,20 +84,9 @@ public class Command {
 
     public boolean hasPermission(Context context){
         if(permissions == null) return true;
-        return PermissionRequester.isGranted(context);
+        boolean hasPermission = PermissionRequester.isGranted(context, permissions);
+        return hasPermission;
     }
-
-    public String execute(String[] args, Context context){
-        if(enabled){
-            if(hasPermission(context)){
-
-                return "La command ea été exécuté !";
-
-            }else return context.getString(R.string.command_error_no_permission);
-        }else return context.getString(R.string.command_error_not_enabled);
-
-    }
-
     private void updateEnableStatus(Context context){
 
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -111,26 +102,16 @@ public class Command {
     public int getIcon() {
         return icon;
     }
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
     public int getTitle() {
         return title;
-    }
-    public void setTitle(int title) {
-        this.title = title;
     }
     public int getDescription() {
         return description;
     }
-    public void setDescription(int description) {
-        this.description = description;
-    }
     public boolean isEnabled() {
         return enabled;
     }
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public String getNameId() {
+        return nameId;
     }
-
 }

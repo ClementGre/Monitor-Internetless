@@ -30,5 +30,17 @@
     <string name="command_desc_wifi">Active ou désactive le Wifi</string>
     <string name="command_desc_bluetooth">Active ou désactive le Bluetooth</string>
     <string name="commandstab_description">Liste des commandes disponibles. Pour les exécuter, il faut les envoyer à ce téléphone par SMS avec un numéro autorisé.\nPar exemple, le message \"!mobile on\" va activer les donnés mobiles sur ce téléphone.</string>
+    <string name="command_error_no_permission">L\'application n\'a pas les permissions nécessaires pour exécuter cette commande.</string>
+    <string name="command_error_not_enabled">Cette commande n\'a pas été activé dans l\'application.</string>
+    <string name="error_no_permission">L\'application ne peut pas recevoir ou envoyer de SMS. L\'application ne poura donc pas exécuter les commandes envoyés par SMS</string>
+    <string name="error_no_permission_title">Autorisations non acceptés</string>
+    <string name="message_ok">OK</string>
+    <string name="message_retry">Réessayer</string>
+    <string name="message_add">Ajouter</string>
+    <string name="message_cancel">Annuler</string>
+    <string name="add_number_title">Ajouter un numéro</string>
+    <string name="add_number_dialog">Saisissez le numéro à ajouter</string>
+    <string name="restart_title">Application des modifications</string>
+    <string name="restart_dialog">L\'application va redémarer pour appliquer les modifications et mettre en place le recepteur de messages.</string>
 
 </resources>

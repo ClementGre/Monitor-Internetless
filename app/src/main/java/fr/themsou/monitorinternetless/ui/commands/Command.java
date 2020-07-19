@@ -2,14 +2,12 @@ package fr.themsou.monitorinternetless.ui.commands;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.ImageDecoder;
-import android.util.Log;
 import android.widget.Switch;
 
 import androidx.core.util.Consumer;
-import androidx.preference.SwitchPreferenceCompat;
 
 import fr.themsou.monitorinternetless.MainActivity;
+import fr.themsou.monitorinternetless.PermissionRequester;
 import fr.themsou.monitorinternetless.R;
 
 public class Command {
@@ -30,29 +28,30 @@ public class Command {
         this.description = description;
         this.enabled = enabled;
     }
-    public Command(String nameId, int icon, int title, int description, boolean enabled, MainActivity activity, String... permissions) {
+    public Command(String nameId, int icon, int title, int description, boolean enabled, Context context, String... permissions) {
         this.nameId = nameId;
         this.icon = icon;
         this.title = title;
         this.description = description;
-        this.enabled = enabled && hasPermission(activity);
         this.permissions = permissions;
+        this.enabled = enabled && hasPermission(context);
     }
 
-    public Command(String nameId, int icon, int title, int description, MainActivity activity) {
+    public Command(String nameId, int icon, int title, int description, Context context) {
         this.nameId = nameId;
         this.icon = icon;
         this.title = title;
         this.description = description;
-        this.enabled = getEnableStatus(activity);
+        this.enabled = getEnableStatus(context);
     }
-    public Command(String nameId, int icon, int title, int description, MainActivity activity, String... permissions) {
+    public Command(String nameId, int icon, int title, int description, Context context, String... permissions) {
         this.nameId = nameId;
         this.icon = icon;
         this.title = title;
         this.description = description;
-        this.enabled = getEnableStatus(activity) && hasPermission(activity);
         this.permissions = permissions;
+        this.enabled = getEnableStatus(context) && hasPermission(context);
+
     }
 
     public void switchChange(final boolean isChecked, final MainActivity activity, final Switch switchEnable, final Consumer<Void> acceptChange) {
@@ -81,9 +80,20 @@ public class Command {
         }
     }
 
-    public boolean hasPermission(MainActivity activity){
+    public boolean hasPermission(Context context){
         if(permissions == null) return true;
-        return activity.permissionRequester.isGranted(permissions);
+        return PermissionRequester.isGranted(context);
+    }
+
+    public String execute(String[] args, Context context){
+        if(enabled){
+            if(hasPermission(context)){
+
+                return "La command ea été exécuté !";
+
+            }else return context.getString(R.string.command_error_no_permission);
+        }else return context.getString(R.string.command_error_not_enabled);
+
     }
 
     private void updateEnableStatus(Context context){
@@ -93,9 +103,9 @@ public class Command {
         editor.putBoolean("isCommandEnabled." + nameId, isEnabled());
         editor.commit();
     }
-    private boolean getEnableStatus(MainActivity activity){
-        SharedPreferences sharedPref = activity.getSharedPreferences(activity.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getBoolean("isCommandEnabled." + nameId, hasPermission(activity));
+    private boolean getEnableStatus(Context context){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getBoolean("isCommandEnabled." + nameId, hasPermission(context));
     }
 
     public int getIcon() {

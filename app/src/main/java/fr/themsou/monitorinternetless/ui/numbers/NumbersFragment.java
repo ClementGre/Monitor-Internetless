@@ -69,14 +69,14 @@ public class NumbersFragment extends Fragment {
             @Override public void onClick(final View v) {
                 final View inputs = layoutInflater.inflate(R.layout.inputs_numbers, null);
                 new AlertDialog.Builder(v.getContext())
-                    .setTitle("Ajouter un numéro")
-                    .setMessage("Saisissez le numéro à ajouter")
+                    .setTitle(getString(R.string.add_number_title))
+                    .setMessage(getString(R.string.add_number_dialog))
                     .setView(inputs)
-                    .setPositiveButton("Ajouter", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.message_add), new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             adapter.addItem(new Number(((EditText) inputs.findViewById(R.id.editTextTextPersonName)).getText().toString(), ((EditText) inputs.findViewById(R.id.editTextPhone)).getText().toString()));
                         }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){ @Override public void onClick(DialogInterface dialog, int which){} }).show();
+                    }).setNegativeButton(getString(R.string.message_cancel), new DialogInterface.OnClickListener(){ @Override public void onClick(DialogInterface dialog, int which){} }).show();
             }
         });
 

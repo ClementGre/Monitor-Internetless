@@ -8,10 +8,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +30,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import fr.themsou.monitorinternetless.commander.LocateReceiver;
+
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int PERMISSION_REQUESTER_START = 2000;
@@ -33,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public PermissionRequester permissionRequester;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         permissionRequester = new PermissionRequester(this);
@@ -51,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
         checkBasePermissions(this);
+        checkAdvancedPermissions(this);
+
     }
 
     public void checkBasePermissions(final MainActivity activity){
@@ -80,6 +89,32 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             });
         }
     }
+    public void checkAdvancedPermissions(final MainActivity activity){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (!Settings.System.canWrite(this)){
+                new AlertDialog.Builder(activity)
+                    .setTitle(getString(R.string.error_no_permission_title))
+                    .setMessage(getString(R.string.error_open_permission_settings))
+                    .setPositiveButton(getString(R.string.message_ok), new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                        intent.setData(Uri.parse("package:" + activity.getApplicationContext().getPackageName()));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.getApplicationContext().startActivity(intent);
+                        }
+                    }).show();
+            }
+        }else{
+            new AlertDialog.Builder(activity)
+                    .setTitle(getString(R.string.error_no_permission_title))
+                    .setMessage(getString(R.string.error_open_permission_settings))
+                    .setPositiveButton(getString(R.string.message_ok), new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show();
+        }
+    }
+
 
     public Toolbar getTopToolBar(){
         return (Toolbar) getSupportActionBar().getCustomView();
@@ -93,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if(requestCode >= PERMISSION_REQUESTER_START && requestCode <= PERMISSION_REQUESTER_END){
             boolean grant = true;
             for(int grantResult : grantResults ){

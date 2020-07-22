@@ -12,6 +12,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -68,6 +69,11 @@ dependencies {
     // optional - Test helpers
     androidTestImplementation "androidx.work:work-testing:$work_version"
 
+    // PHONE Number
+    implementation 'com.googlecode.libphonenumber:libphonenumber:7.2.2'
+
+    // MULTIDEX
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     // GAPPS
     implementation "com.google.android.gms:play-services-location:17.0.0"

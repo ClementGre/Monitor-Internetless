@@ -67,16 +67,10 @@ public class SMSTask extends AsyncTask<String, Integer, String> {
         try{
             authorizedNumbers = asyncResult.take();
 
-
-
-            String messageFromFormatted = messageFrom;
-            if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
-                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                String countryCodeValue = tm.getSimCountryIso();
-            }
+            String messageFromFormatted = Number.formatNumber(messageFrom, context);
 
             for(Number number : authorizedNumbers){
-                if(number.getNumber().equals(messageFrom)){
+                if(number.getNumber().equals(messageFromFormatted)){
                     return true;
                 }
             }

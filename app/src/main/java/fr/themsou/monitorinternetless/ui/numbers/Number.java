@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
@@ -16,6 +17,10 @@ import androidx.room.PrimaryKey;
 import androidx.room.Query;
 import androidx.room.Room;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -25,6 +30,8 @@ import java.util.function.Predicate;
 
 @Entity
 public class Number{
+
+    private static final String TAG = "Number";
 
     @ColumnInfo(name = "owner")
     private String owner;
@@ -39,12 +46,7 @@ public class Number{
 
     public Number(String owner, String number, Context context){
         this.owner = owner;
-        this.number = number;
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            String countryCodeValue = tm.getSimCountryIso();
-            //this.number = PhoneNumberUtils.formatNumber(this.number, countryCodeValue);
-        }
+        this.number = formatNumber(number, context);
     }
 
     public String getNumber() {
@@ -101,5 +103,23 @@ public class Number{
                 db.close();
             }
         }).start();
+    }
+
+    public static String formatNumber(String number, Context context){
+
+        try{
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String countryCodeValue = tm.getSimCountryIso().toUpperCase();
+            Phonenumber.PhoneNumber numberProto = phoneUtil.parse(number, countryCodeValue);
+            String numberFormatted = phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.E164);
+            if(numberFormatted != null){
+                return numberFormatted;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return number;
     }
 }

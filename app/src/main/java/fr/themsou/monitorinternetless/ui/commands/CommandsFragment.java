@@ -64,20 +64,17 @@ public class CommandsFragment extends Fragment {
                     context, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION));
         }
 
-        commands.add(new Command("eco", R.drawable.ic_baseline_battery_charging_full_24, R.string.command_title_eco, R.string.command_desc_eco,
-                context, Manifest.permission.CHANGE_CONFIGURATION));
+        //commands.add(new Command("eco", R.drawable.ic_baseline_battery_charging_full_24, R.string.command_title_eco, R.string.command_desc_eco,
+          //      context, Manifest.permission.CHANGE_CONFIGURATION));
 
         commands.add(new Command("mobile", R.drawable.ic_baseline_swap_vert_24, R.string.command_title_mobile, R.string.command_desc_mobile,
                 context, Manifest.permission.CHANGE_NETWORK_STATE));
 
         commands.add(new Command("gps", R.drawable.ic_baseline_location_on_24, R.string.command_title_gps, R.string.command_desc_gps,
-                context, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS));
+                context, Manifest.permission.WRITE_SETTINGS, Manifest.permission.WRITE_SECURE_SETTINGS));
 
-        commands.add(new Command("wifi", R.drawable.ic_baseline_wifi_24, R.string.command_title_wifi, R.string.command_desc_wifi,
-                context, Manifest.permission.CHANGE_WIFI_STATE));
-
-        commands.add(new Command("bluetooth", R.drawable.ic_baseline_bluetooth_24, R.string.command_title_bluetooth, R.string.command_desc_bluetooth,
-                context, Manifest.permission.BLUETOOTH_ADMIN));
+        //commands.add(new Command("wifi", R.drawable.ic_baseline_wifi_24, R.string.command_title_wifi, R.string.command_desc_wifi,
+          //      context, Manifest.permission.CHANGE_WIFI_STATE));
 
         return commands;
     }

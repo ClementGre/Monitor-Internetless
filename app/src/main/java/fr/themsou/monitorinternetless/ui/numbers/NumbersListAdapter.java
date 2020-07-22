@@ -72,18 +72,18 @@ public class NumbersListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.listitem_numbers, parent, false);
-
-            ((TextView) convertView.findViewById(R.id.number_number)).setText(getItem(position).getNumber());
-            ((TextView) convertView.findViewById(R.id.number_owner)).setText(getItem(position).getOwner());
-
-            ImageButton button = convertView.findViewById(R.id.delete_button);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v){
-                    removeItem(position);
-                }
-            });
-
         }
+
+        ((TextView) convertView.findViewById(R.id.number_number)).setText(getItem(position).getNumber());
+        ((TextView) convertView.findViewById(R.id.number_owner)).setText(getItem(position).getOwner());
+
+        ImageButton button = convertView.findViewById(R.id.delete_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v){
+                removeItem(position);
+            }
+        });
+
         return convertView;
     }
 }

@@ -15,20 +15,18 @@
     <string name="number_input_owner">Nom</string>
     <string name="number_input_number">Numéro</string>
     <string name="number_do_not_have_number">Ce contact n\'a pas de numéro de téléphone</string>
-    <string name="command_desc_info">Envoie des informations sur le téléphone : niveau de batterie, position approximative etc.</string>
+    <string name="command_desc_info">Envoie des informations sur le téléphone : niveau de batterie, dernière position etc.</string>
     <string name="command_title_info">!info</string>
     <string name="command_title_locate">!locate</string>
-    <string name="command_desc_locate">Envoie la position GPS du téléphone. Cela active automatiquement le GPS.</string>
+    <string name="command_desc_locate">Envoie la position du téléphone (le GPS doirt être activé).</string>
     <string name="command_title_eco"><![CDATA[!eco <on/off>]]></string>
-    <string name="command_desc_eco">Active ou désactive le mode économie d\'énergie du téléphone.</string>
+    <string name="command_desc_eco">Active ou désactive le mode économie d\'énergie du téléphone (requiert Android 5.0).</string>
     <string name="command_title_mobile"><![CDATA[!mobile <on/off>]]></string>
     <string name="command_desc_mobile">"Active ou désactive les données mobiles ( 4G, 5G etc. ). "</string>
     <string name="command_title_gps"><![CDATA[!gps <on/off>]]></string>
-    <string name="command_desc_gps">Active ou désactive le GPS (la position)</string>
-    <string name="command_title_bluetooth"><![CDATA[!bluetooth <on/off>]]></string>
+    <string name="command_desc_gps">Active ou désactive le GPS, nécessite que l\'application soit déclarée comme application système (téléphone rooté)</string>
     <string name="command_title_wifi"><![CDATA[!wifi <on/off>]]></string>
     <string name="command_desc_wifi">Active ou désactive le Wifi</string>
-    <string name="command_desc_bluetooth">Active ou désactive le Bluetooth</string>
     <string name="commandstab_description">Liste des commandes disponibles. Pour les exécuter, il faut les envoyer à ce téléphone par SMS avec un numéro autorisé.\nPar exemple, le message \"!mobile on\" va activer les donnés mobiles sur ce téléphone.</string>
     <string name="command_error_no_permission">L\'application n\'a pas les permissions nécessaires pour exécuter cette commande.</string>
     <string name="command_error_not_enabled">Cette commande n\'a pas été activé dans l\'application.</string>
@@ -42,5 +40,6 @@
     <string name="add_number_dialog">Saisissez le numéro à ajouter</string>
     <string name="restart_title">Application des modifications</string>
     <string name="restart_dialog">L\'application va redémarer pour appliquer les modifications et mettre en place le recepteur de messages.</string>
+    <string name="error_open_permission_settings">Vous devez autoriser l\'application à modifier les paramètres du système (activer le GPS, les donnés mobiles etc.) pour que certaines fonctionnalités fonctionbnent correctement.</string>
 
 </resources>

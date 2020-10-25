@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -59,6 +60,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         checkBasePermissions(this);
         checkAdvancedPermissions(this);
+
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("authorizednumbers");
+        editor.commit();
 
     }
 

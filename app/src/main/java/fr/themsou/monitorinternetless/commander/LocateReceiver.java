@@ -1,13 +1,10 @@
 package fr.themsou.monitorinternetless.commander;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.telephony.SmsManager;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -25,12 +22,13 @@ public class LocateReceiver extends BroadcastReceiver {
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(context);
         final LocationResult locationResult = LocationResult.extractResult(intent);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_NO_CREATE);
-        if(locationResult != null && CommandExecutor.locateAsyncResult != null){
+        if(locationResult != null && LocateCommandExecutor.locateAsyncResult != null){
             List<Location> locations = locationResult.getLocations();
             try{
                 if(locations.size() > 0){
                     Location location = locations.get(0);
-                    CommandExecutor.locateAsyncResult.put(
+                    LocateCommandExecutor.locateAsyncResult.put(
+                            "GMaps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() +"\n" +
                             "Latitude : " + location.getLatitude() + "°\n" +
                             "Longitude : " + location.getLongitude() + "°\n" +
                             "Accuracy : " + location.getAccuracy() + " m" + "\n" +
@@ -38,7 +36,7 @@ public class LocateReceiver extends BroadcastReceiver {
                             "Speed : " + location.getSpeed() + " m/s \n" +
                             "Date : " + new Date(location.getTime()).toString());
                 }else{
-                    CommandExecutor.locateAsyncResult.put("Unable to refresh location");
+                    LocateCommandExecutor.locateAsyncResult.put("Unable to refresh location");
                 }
             }catch(InterruptedException e){ e.printStackTrace(); }
 

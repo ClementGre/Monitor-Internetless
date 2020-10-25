@@ -30,11 +30,6 @@ public class SMSReceiver extends BroadcastReceiver {
                             final PendingResult pendingResult = goAsync();
                             AsyncTask<String, Integer, String> asyncTask = new SMSTask(pendingResult, intent, context.getApplicationContext(), msgs[i].getOriginatingAddress(), msgs[i].getMessageBody());
                             asyncTask.execute();
-
-                        /*Intent serviceIntent = new Intent(context.getApplicationContext(), SMSTask.class);
-                        serviceIntent.putExtra("from", msgs[i].getOriginatingAddress());
-                        serviceIntent.putExtra("body", msgs[i].getMessageBody());
-                        context.startService(serviceIntent);*/
                         }
                     }
                 }catch(Exception e){

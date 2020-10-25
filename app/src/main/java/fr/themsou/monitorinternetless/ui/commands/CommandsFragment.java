@@ -35,6 +35,7 @@ public class CommandsFragment extends Fragment {
     private static final String TAG = "CommandsFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).getTopToolBar().setTitle(getString(R.string.title_commands));
 
         View root = inflater.inflate(R.layout.fragment_commands, container, false);
         final LayoutInflater layoutInflater = LayoutInflater.from(getContext());
@@ -67,11 +68,11 @@ public class CommandsFragment extends Fragment {
         //commands.add(new Command("eco", R.drawable.ic_baseline_battery_charging_full_24, R.string.command_title_eco, R.string.command_desc_eco,
           //      context, Manifest.permission.CHANGE_CONFIGURATION));
 
-        commands.add(new Command("mobile", R.drawable.ic_baseline_swap_vert_24, R.string.command_title_mobile, R.string.command_desc_mobile,
-                context, Manifest.permission.CHANGE_NETWORK_STATE));
+        //commands.add(new Command("mobile", R.drawable.ic_baseline_swap_vert_24, R.string.command_title_mobile, R.string.command_desc_mobile,
+          //      context, Manifest.permission.CHANGE_NETWORK_STATE));
 
-        commands.add(new Command("gps", R.drawable.ic_baseline_location_on_24, R.string.command_title_gps, R.string.command_desc_gps,
-                context, Manifest.permission.WRITE_SETTINGS, Manifest.permission.WRITE_SECURE_SETTINGS));
+        //commands.add(new Command("gps", R.drawable.ic_baseline_location_on_24, R.string.command_title_gps, R.string.command_desc_gps,
+          //      context, Manifest.permission.WRITE_SETTINGS, Manifest.permission.WRITE_SECURE_SETTINGS));
 
         //commands.add(new Command("wifi", R.drawable.ic_baseline_wifi_24, R.string.command_title_wifi, R.string.command_desc_wifi,
           //      context, Manifest.permission.CHANGE_WIFI_STATE));

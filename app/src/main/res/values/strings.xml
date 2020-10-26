@@ -58,7 +58,7 @@
     <string name="unknown">Inconnue</string>
     <string name="info_enabled">Activé</string>
     <string name="info_disabled">Désactivé</string>
-    <string name="info_battery">Betterie</string>
+    <string name="info_battery">Batterie</string>
     <string name="info_celular">Données mobiles</string>
     <string name="info_power_saver">Économie d\'énergie</string>
     <string name="info_last_location">Dernière position</string>

@@ -13,6 +13,6 @@ Le fichier .apk de l'application peut être téléchargé dans l'[onglet Release
 
 ## Preview
 
-![Preview1](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/app/src/main/res/preview/preview1.png) ![Preview2](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/app/src/main/res/preview/preview2.png)
+![](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/app/src/main/res/preview/preview1.png) ![](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/app/src/main/res/preview/preview2.png)
 
-![Logo](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/app/src/main/res/drawable/logo_semi_rounded.png)
+![Logo](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/app/src/main/res/preview/logo_semi_rounded.png)

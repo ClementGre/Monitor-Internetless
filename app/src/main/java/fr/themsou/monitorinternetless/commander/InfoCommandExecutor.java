@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
+import fr.themsou.monitorinternetless.R;
+
 public class InfoCommandExecutor{
 
     private final Context context;
@@ -35,71 +37,55 @@ public class InfoCommandExecutor{
     public void execute(String[] args) {
 
         // BATTERY
-        String batteryLevel = "Unknown";
-        if(Build.VERSION.SDK_INT >= 21){
-            BatteryManager bm = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
-            if(bm != null)
-                batteryLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) + "%";
-        }else{
-            IntentFilter iFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            Intent batteryStatus = context.registerReceiver(null, iFilter);
-            int level = batteryStatus != null ? batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) : -1;
-            int scale = batteryStatus != null ? batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1) : -1;
-            double batteryPct = level / (double) scale;
-            batteryLevel = (int) (batteryPct * 100) + "%";
-        }
+        String batteryLevel = context.getString(R.string.unknown);
+        BatteryManager bm = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+        if(bm != null) batteryLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY) + "%";
 
         // LASTLOCATION
-        String lastLocation = "Unknown";
+        String lastLocation = context.getString(R.string.unknown);
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        final BlockingQueue<String> asyncResult = new SynchronousQueue<>();
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-        fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override public void onSuccess(Location location) {
-                try{
-                    if(location != null){
-                        asyncResult.put("\n" +
-                                "  Lat/long : " + location.getLatitude() + "° " + location.getLongitude() + "°\n" +
-                                "  Accuracy : " + location.getAccuracy() + " m" + "\n" +
-                                "  Date : " + new Date(location.getTime()).toString());
-                    }else{
-                        asyncResult.put("Unknown");
-                    }
-                }catch(InterruptedException e){ e.printStackTrace(); }
-            }
-        });
-
-
-        try{
-            lastLocation = asyncResult.take();
-        }catch(InterruptedException e){ e.printStackTrace(); }
-
-        String powerSaver = "Unknown";
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            if(powerManager != null)  powerSaver = powerManager.isPowerSaveMode() ? "Enable" : "Disable";
-        }
-
-        String mobileData = "Unknown";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if(lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            final BlockingQueue<String> asyncResult = new SynchronousQueue<>();
+            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+            fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override public void onSuccess(Location location) {
+                    try{
+                        if(location != null){
+                            asyncResult.put("\n" +
+                                    "  Lat/long : " + location.getLatitude() + "° " + location.getLongitude() + "°\n" +
+                                    "  " + context.getString(R.string.info_accuracy) + " : " + location.getAccuracy() + " m" + "\n" +
+                                    "  Date : " + new Date(location.getTime()).toString());
+                        }else{
+                            asyncResult.put("Unknown");
+                        }
+                    }catch(InterruptedException e){ e.printStackTrace(); }
+                }
+            });
             try{
-                mobileData = (Settings.Global.getInt(context.getContentResolver(), "mobile_data") == 1) ? "Enable" : "Disable";
-            }catch(Settings.SettingNotFoundException e){ e.printStackTrace(); }
+                lastLocation = asyncResult.take();
+            }catch(InterruptedException e){ e.printStackTrace(); }
+        }else{
+            lastLocation = context.getString(R.string.info_gps_disabled);
         }
 
-        String gps = "Unknown";
-        if(lm != null) gps = lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ? "Enable" : "Disable";
+        String powerSaver = context.getString(R.string.unknown);
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if(powerManager != null)  powerSaver = powerManager.isPowerSaveMode() ? context.getString(R.string.info_enabled) : context.getString(R.string.info_disabled);
+
+        String mobileData = context.getString(R.string.unknown);
+        try{
+            mobileData = (Settings.Global.getInt(context.getContentResolver(), "mobile_data") == 1) ? context.getString(R.string.info_enabled) : context.getString(R.string.info_disabled);
+        }catch(Settings.SettingNotFoundException e){ e.printStackTrace(); }
 
 
-        String wifi = "Unknown";
+        String wifi = context.getString(R.string.unknown);
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if(wifiManager != null) wifi = wifiManager.isWifiEnabled() ? "Enable" : "Disable";
+        if(wifiManager != null) wifi = wifiManager.isWifiEnabled() ? context.getString(R.string.info_enabled) : context.getString(R.string.info_disabled);
 
-        commandExecutor.replyAndTerminate("Battery : " + batteryLevel + "\n" +
-                "LastLocation : " + lastLocation + "\n" +
-                "Eco mode : " + powerSaver + "\n" +
-                "Mobile data : " + mobileData + "\n" +
-                "GPS : " + gps + "\n" +
-                "Wifi : " + wifi);
+        commandExecutor.replyAndTerminate(context.getString(R.string.info_battery) + " : " + batteryLevel + "\n" +
+                context.getString(R.string.info_power_saver) + " : " + powerSaver + "\n" +
+                context.getString(R.string.info_celular) + " : " + mobileData + "\n" +
+                "Wifi : " + wifi + "\n" +
+                context.getString(R.string.info_last_location) + " : " + lastLocation);
     }
 }

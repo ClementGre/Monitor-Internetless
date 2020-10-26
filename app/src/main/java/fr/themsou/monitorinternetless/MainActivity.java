@@ -14,10 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -30,8 +27,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import fr.themsou.monitorinternetless.commander.LocateReceiver;
+import fr.themsou.monitorinternetless.ui.about.AboutActivity;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -58,8 +54,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         getSupportActionBar().setCustomView(R.layout.top_toolbar);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
+        Toolbar toolBar = (Toolbar) getSupportActionBar().getCustomView();
+        toolBar.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+            @Override public boolean onMenuItemClick(MenuItem item){
+                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left);
+                return true;
+            }
+        });
+
         checkBasePermissions(this);
-        checkAdvancedPermissions(this);
+        //checkAdvancedPermissions(this);
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();

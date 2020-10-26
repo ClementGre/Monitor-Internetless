@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.UnicodeSetIterator;
 import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationResult;
@@ -11,6 +12,8 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.Date;
 import java.util.List;
+
+import fr.themsou.monitorinternetless.R;
 
 public class LocateReceiver extends BroadcastReceiver {
 
@@ -28,12 +31,12 @@ public class LocateReceiver extends BroadcastReceiver {
                 if(locations.size() > 0){
                     Location location = locations.get(0);
                     LocateCommandExecutor.locateAsyncResult.put(
-                            "GMaps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() +"\n" +
-                            "Latitude : " + location.getLatitude() + "°\n" +
-                            "Longitude : " + location.getLongitude() + "°\n" +
-                            "Accuracy : " + location.getAccuracy() + " m" + "\n" +
-                            "Bearing : " + location.getBearing() + "°\n" +
-                            "Speed : " + location.getSpeed() + " m/s \n" +
+                            "Maps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() +"\n" +
+                            context.getString(R.string.info_latitude) + " : " + location.getLatitude() + "°\n" +
+                            context.getString(R.string.info_longitude) + " : " + location.getLongitude() + "°\n" +
+                            context.getString(R.string.info_accuracy) + " : " + location.getAccuracy() + " m" + "\n" +
+                            context.getString(R.string.info_bearing) + " : " + location.getBearing() + "°\n" +
+                            context.getString(R.string.info_speed) + " : " + location.getSpeed() + " m/s \n" +
                             "Date : " + new Date(location.getTime()).toString());
                 }else{
                     LocateCommandExecutor.locateAsyncResult.put("Unable to refresh location");

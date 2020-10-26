@@ -9,6 +9,7 @@ import android.telephony.SmsManager;
 import java.util.HashSet;
 import java.util.Set;
 
+import fr.themsou.monitorinternetless.R;
 import fr.themsou.monitorinternetless.ui.numbers.Number;
 import fr.themsou.monitorinternetless.ui.settings.Setting;
 
@@ -36,12 +37,12 @@ public class LoginCommandExecutor {
                 editor.putStringSet("authorizednumbers", authorizedNumbers);
                 editor.commit();
 
-                smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage("You are now logged in: you have access to activated commands."), null, null);
+                smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage(context.getString(R.string.command_logged_in)), null, null);
             }else{
-                smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage("Wrong Password !\nSend \"!login [Password]\" replacing [Password] by the password you entered in the app."), null, null);
+                smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage(context.getString(R.string.command_wrong_password)), null, null);
             }
         }else{
-            smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage("Send \"!login [Password]\" replacing [Password] by the password you entered in the app."), null, null);
+            smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage(context.getString(R.string.command_password_help)), null, null);
         }
     }
 

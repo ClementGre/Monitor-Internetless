@@ -61,7 +61,7 @@ public class SMSTask extends AsyncTask<String, Integer, String> {
                 for(Command command : commands){
                     if(context.getString(command.getTitle()).split(Pattern.quote(" "))[0].equalsIgnoreCase(messageBody.split(Pattern.quote(" "))[0])){
                         SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage("A password is required, authenticate you with !login [Password]"), null, null);
+                        smsManager.sendMultipartTextMessage(messageFrom, null, smsManager.divideMessage(context.getString(R.string.command_password_required)), null, null);
                         break;
                     }
                 }

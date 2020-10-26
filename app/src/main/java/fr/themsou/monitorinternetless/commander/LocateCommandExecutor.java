@@ -13,6 +13,8 @@ import com.google.android.gms.location.LocationServices;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
+import fr.themsou.monitorinternetless.R;
+
 public class LocateCommandExecutor{
 
     public static BlockingQueue<String> locateAsyncResult;
@@ -29,14 +31,15 @@ public class LocateCommandExecutor{
 
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            commandExecutor.replyAndTerminate("Error : GPS isn't enable.");
+            commandExecutor.replyAndTerminate(context.getString(R.string.info_error_gps_disabled));
         }else{
-            commandExecutor.reply("localization in progress...");
+            commandExecutor.reply(context.getString(R.string.info_localizing));
 
             locateAsyncResult = new SynchronousQueue<>();
             final FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
 
             LocationRequest locationRequest = new LocationRequest();
+            locationRequest.setNumUpdates(1);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             Intent intent = new Intent(context, LocateReceiver.class);
@@ -54,7 +57,7 @@ public class LocateCommandExecutor{
             if(!location.isEmpty()){
                 commandExecutor.replyAndTerminate(location);
             }else{
-                commandExecutor.replyAndTerminate("Unknown location");
+                commandExecutor.replyAndTerminate(context.getString(R.string.info_location_unknown));
             }
         }
     }

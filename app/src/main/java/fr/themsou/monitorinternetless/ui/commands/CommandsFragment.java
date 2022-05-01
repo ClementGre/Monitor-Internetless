@@ -4,29 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
 
 import fr.themsou.monitorinternetless.MainActivity;
 import fr.themsou.monitorinternetless.R;
-import fr.themsou.monitorinternetless.ui.numbers.Number;
-import fr.themsou.monitorinternetless.ui.numbers.NumbersListAdapter;
 
 public class CommandsFragment extends Fragment {
 
@@ -55,14 +44,14 @@ public class CommandsFragment extends Fragment {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             commands.add(new Command("info", R.drawable.ic_baseline_info_24, R.string.command_title_info, R.string.command_desc_info,
-                    context, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION));
+                    context, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION));
             commands.add(new Command("locate", R.drawable.ic_baseline_gps_fixed_24, R.string.command_title_locate, R.string.command_desc_locate,
-                    context, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION));
+                    context, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION));
         }else{
             commands.add(new Command("info", R.drawable.ic_baseline_info_24, R.string.command_title_info, R.string.command_desc_info,
-                    context, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_COARSE_LOCATION));
+                    context, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_FINE_LOCATION));
             commands.add(new Command("locate", R.drawable.ic_baseline_gps_fixed_24, R.string.command_title_locate, R.string.command_desc_locate,
-                    context, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION));
+                    context, Manifest.permission.ACCESS_FINE_LOCATION));
         }
 
         //commands.add(new Command("eco", R.drawable.ic_baseline_battery_charging_full_24, R.string.command_title_eco, R.string.command_desc_eco,

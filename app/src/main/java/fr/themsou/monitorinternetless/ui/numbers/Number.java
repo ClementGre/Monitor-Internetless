@@ -2,31 +2,19 @@ package fr.themsou.monitorinternetless.ui.numbers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 import androidx.room.ColumnInfo;
-import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Entity;
-import androidx.room.Insert;
 import androidx.room.PrimaryKey;
-import androidx.room.Query;
 import androidx.room.Room;
 
-import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.function.Predicate;
 
 @Entity
 public class Number{

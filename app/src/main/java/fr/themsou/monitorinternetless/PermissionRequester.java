@@ -1,15 +1,16 @@
 package fr.themsou.monitorinternetless;
 
+import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.provider.Settings;
-import android.util.Log;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Consumer;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -54,21 +55,8 @@ public class PermissionRequester {
         return grant;
     }
 
-    public void grant(String permissionCode){
-        if(!isGranted(permissionCode))
-            ActivityCompat.requestPermissions(activity, new String[]{permissionCode}, 2000);
-    }
 
-    public void grant(String permissionCode, Consumer<Boolean> callBack){
-        if(!isGranted(permissionCode)){
-            int requestCode = 2000 + new Random().nextInt(1000); // 2000 - 2999
-            ActivityCompat.requestPermissions(activity, new String[]{permissionCode}, requestCode);
-            currentRequests.put(requestCode, callBack);
-        }else{
-            callBack.accept(true);
-        }
-    }
-    public void grantOnly(String permissionCode, Consumer<Boolean> grantedCallBack){
+    public void grantOnly(String permissionCode, Consumer<Boolean> grantedCallBack){ // If already granted, return null
         if(!isGranted(permissionCode)){
             int requestCode = 3000 + new Random().nextInt(1000); // 3000 - 3999
             ActivityCompat.requestPermissions(activity, new String[]{permissionCode}, requestCode);
@@ -78,26 +66,48 @@ public class PermissionRequester {
         }
     }
 
-    public void grantSome(String... permissions){
-        if(!isGranted(permissions))
-            ActivityCompat.requestPermissions(activity, permissions, 2000);
-    }
     public void grantSome(String[] permissions, Consumer<Boolean> callBack){
-        if(!isGranted(permissions)){
+
+        ArrayList<String> finalPermissions = new ArrayList<>();
+        for(String permission : permissions){
+            if(permission.equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                callBack = insertRequestForBackgroundLocation(callBack);
+            }else{
+                finalPermissions.add(permission);
+            }
+        }
+        permissions = finalPermissions.toArray(new String[0]);
+
+        if(!isGranted(permissions) && permissions.length > 0){
             int requestCode = 2000 + new Random().nextInt(1000); // 2000 - 2999
             ActivityCompat.requestPermissions(activity, permissions, requestCode);
             currentRequests.put(requestCode, callBack);
         }else{
             callBack.accept(true);
         }
+
     }
-    public void grantSomeOnly(String[] permissions, Consumer<Boolean> grantedCallBack){
-        if(!isGranted(permissions)){
-            int requestCode = 3000 + new Random().nextInt(1000); // 3000 - 3999
-            ActivityCompat.requestPermissions(activity, permissions, requestCode);
-            currentRequests.put(requestCode, grantedCallBack);
-        }else{
-            grantedCallBack.accept(null);
-        }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public Consumer<Boolean> insertRequestForBackgroundLocation(final Consumer<Boolean> callBack){
+
+        return new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean isGranted) {
+                if(isGranted){
+                    if(!isGranted(Manifest.permission.ACCESS_BACKGROUND_LOCATION)){ // Everything's granted but not the background location.
+                        int requestCode = 2000 + new Random().nextInt(1000); // 2000 - 2999
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, requestCode);
+                        currentRequests.put(requestCode, callBack);
+                    }else{
+                        callBack.accept(true);
+                    }
+                }else{
+                    callBack.accept(false);
+                }
+            }
+        };
+
+
     }
 }

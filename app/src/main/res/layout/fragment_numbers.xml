@@ -20,7 +20,7 @@
         app:menu_showShadow="true"
         app:menu_openDirection="up">
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/action_button_contact"
+            android:id="@+id/action_add_number_contacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -31,7 +31,7 @@
             app:fab_label="@string/addnumber_contact"/>
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/action_button_capture"
+            android:id="@+id/action_add_number_manually"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

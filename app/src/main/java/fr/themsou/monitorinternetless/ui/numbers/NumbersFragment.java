@@ -4,7 +4,6 @@ import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,10 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
-
-import java.util.ArrayList;
 
 import fr.themsou.monitorinternetless.MainActivity;
 import fr.themsou.monitorinternetless.R;
@@ -38,7 +34,7 @@ public class NumbersFragment extends Fragment {
     private String TAG = "NumbersFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
-        ((MainActivity) requireActivity()).getTopToolBar().setTitle(getString(R.string.title_numbers_full));
+        if(((MainActivity) requireActivity()).getTopToolBar() != null) ((MainActivity) requireActivity()).getTopToolBar().setTitle(getString(R.string.title_numbers_full));
 
         View root = inflater.inflate(R.layout.fragment_numbers, container, false);
         final LayoutInflater layoutInflater = LayoutInflater.from(getContext());
@@ -46,38 +42,28 @@ public class NumbersFragment extends Fragment {
         listView = root.findViewById(R.id.numbers_listview);
         listView.addHeaderView(layoutInflater.inflate(R.layout.header_numbers, null));
 
-        Number.getNumbers(getActivity(), new Consumer<ArrayList<Number>>() {
-            @Override public void accept(ArrayList<Number> numbers) {
-                adapter = new NumbersListAdapter(getContext(), numbers);
-                listView.setAdapter(adapter);
-            }
+        Number.getNumbers(getActivity(), numbers -> {
+            adapter = new NumbersListAdapter(getContext(), numbers);
+            listView.setAdapter(adapter);
         });
 
-        root.findViewById(R.id.action_add_number_contacts).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                ((MainActivity) requireActivity()).permissionRequester.grantOnly(Manifest.permission.READ_CONTACTS, new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) {
-                        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-                        startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
-                    }
-                });
-            }
-        });
+        root.findViewById(R.id.action_add_number_contacts).setOnClickListener(v -> ((MainActivity) requireActivity()).permissionRequester.grantOnly(Manifest.permission.READ_CONTACTS, aBoolean -> {
+            Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+            startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
+        }));
 
-        root.findViewById(R.id.action_add_number_manually).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(final View v) {
-                final View inputs = layoutInflater.inflate(R.layout.inputs_numbers, null);
-                new AlertDialog.Builder(v.getContext())
-                    .setTitle(getString(R.string.add_number_title))
-                    .setMessage(getString(R.string.add_number_dialog))
-                    .setView(inputs)
-                    .setPositiveButton(getString(R.string.message_add), new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            adapter.addItem(new Number(((EditText) inputs.findViewById(R.id.editTextTextPersonName)).getText().toString(), ((EditText) inputs.findViewById(R.id.editTextPhone)).getText().toString(), getActivity()));
-                        }
-                    }).setNegativeButton(getString(R.string.message_cancel), new DialogInterface.OnClickListener(){ @Override public void onClick(DialogInterface dialog, int which){} }).show();
-            }
+        root.findViewById(R.id.action_add_number_manually).setOnClickListener(v -> {
+            final View inputs = layoutInflater.inflate(R.layout.inputs_numbers, null);
+            new AlertDialog.Builder(v.getContext())
+                .setTitle(getString(R.string.add_number_title))
+                .setMessage(getString(R.string.add_number_dialog))
+                .setView(inputs)
+                .setPositiveButton(getString(R.string.message_add), (dialog, which) -> {
+                    adapter.addItem(new Number(
+                            ((EditText) inputs.findViewById(R.id.editTextTextPersonName)).getText().toString(),
+                            ((EditText) inputs.findViewById(R.id.editTextPhone))
+                                    .getText().toString(), getActivity()));
+                }).setNegativeButton(getString(R.string.message_cancel), (dialog, which) -> {}).show();
         });
 
         return root;

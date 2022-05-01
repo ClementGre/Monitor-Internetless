@@ -1,32 +1,36 @@
 package fr.themsou.monitorinternetless;
 
 import android.Manifest;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.MenuItem;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.util.Consumer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import fr.themsou.monitorinternetless.commander.RingCommandExecutor;
 import fr.themsou.monitorinternetless.ui.about.AboutActivity;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -64,6 +68,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         });
 
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.cancel(1);
+        if(RingCommandExecutor.mediaPlayer != null && RingCommandExecutor.mediaPlayer.isPlaying()){
+            RingCommandExecutor.mediaPlayer.stop();
+            final AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, RingCommandExecutor.oldVolume, 0);
+        }
+
+        initNotificationsChannels();
         checkBasePermissions(this);
         //checkAdvancedPermissions(this);
 
@@ -84,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                                 .setMessage(getString(R.string.restart_dialog))
                                 .setPositiveButton(getString(R.string.message_ok), new DialogInterface.OnClickListener() {
                                     @Override public void onClick(DialogInterface dialog, int which) {
-                                        doRestart(activity);
+                                        doRestart();
                                     }
                                 }).show();
                     }else{
@@ -163,41 +176,21 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         active = false;
     }
 
-    public static void doRestart(Context c) {
-        try {
-            //check if the context is given
-            if (c != null) {
-                //fetch the packagemanager so we can get the default launch activity
-                // (you can replace this intent with any other activity if you want
-                PackageManager pm = c.getPackageManager();
-                //check if we got the PackageManager
-                if (pm != null) {
-                    //create the intent with the default start activity for your application
-                    Intent mStartActivity = pm.getLaunchIntentForPackage(
-                            c.getPackageName()
-                    );
-                    if (mStartActivity != null) {
-                        mStartActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        //create a pending intent so the application is restarted after System.exit(0) was called.
-                        // We use an AlarmManager to call this intent in 100ms
-                        int mPendingIntentId = 223344;
-                        PendingIntent mPendingIntent = PendingIntent.getActivity(c, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager mgr = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 200, mPendingIntent);
-                        //kill the application
-                        System.exit(0);
-                    } else {
-                        Log.e(TAG, "Was not able to restart application, mStartActivity null");
-                    }
-                } else {
-                    Log.e(TAG, "Was not able to restart application, PM null");
-                }
-            } else {
-                Log.e(TAG, "Was not able to restart application, Context null");
-            }
-        } catch (Exception ex) {
-            Log.e(TAG, "Was not able to restart application");
-        }
+    public void doRestart(){
+        finish();
+        startActivity(getIntent());
+        // Animation
+        overridePendingTransition(0, 0);
+    }
+
+    private void initNotificationsChannels(){
+        CharSequence name = "Sonnerie";
+        String description = "Notification pour alerter de la sonnerie du téléphone avec la commande !ring";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("ring", name, importance);
+        channel.setDescription(description);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
 }

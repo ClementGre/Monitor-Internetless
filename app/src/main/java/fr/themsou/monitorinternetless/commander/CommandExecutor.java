@@ -4,11 +4,7 @@ import android.content.Context;
 import android.telephony.SmsManager;
 import android.util.Log;
 
-import androidx.core.util.Predicate;
-
 import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.SynchronousQueue;
 import java.util.regex.Pattern;
 
 import fr.themsou.monitorinternetless.R;
@@ -47,6 +43,8 @@ public class CommandExecutor {
                                 new InfoCommandExecutor(context, this).execute(args);
                             case "!locate":
                                 new LocateCommandExecutor(context, this).execute(args);
+                            case "!ring":
+                                new RingCommandExecutor(context, this).execute(args);
                         }
 
                     }else replyAndTerminate(context.getString(R.string.command_error_no_permission));
@@ -71,16 +69,4 @@ public class CommandExecutor {
         terminatedMessage = message;
     }
 
-
-    private boolean parse(String arg){
-        switch(arg.toLowerCase()){
-            case "on":
-            case "yes":
-            case "true":
-            case "enable":
-                return true;
-            default:
-                return false;
-        }
-    }
 }

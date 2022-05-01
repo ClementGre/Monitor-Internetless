@@ -54,6 +54,9 @@ public class CommandsFragment extends Fragment {
                     context, Manifest.permission.ACCESS_FINE_LOCATION));
         }
 
+        commands.add(new Command("ring", R.drawable.ic_baseline_music_note_24, R.string.command_title_ring, R.string.command_desc_ring,
+                context));
+
         //commands.add(new Command("eco", R.drawable.ic_baseline_battery_charging_full_24, R.string.command_title_eco, R.string.command_desc_eco,
           //      context, Manifest.permission.CHANGE_CONFIGURATION));
 

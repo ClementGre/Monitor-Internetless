@@ -18,6 +18,8 @@
     <string name="command_desc_info">Envoie des informations sur le téléphone : niveau de batterie, dernière position etc.</string>
     <string name="command_title_info">!info</string>
     <string name="command_title_locate">!locate</string>
+    <string name="command_title_ring">!ring [durée en secondes]</string>
+    <string name="command_desc_ring">Fait sonner le téléphone pour 10 secondes. Si un argument est fournis, il définira la durée de sonnerie. "!ring 120" fera sonner le téléphone durant 2 minutes.</string>
     <string name="command_desc_locate">Envoie la position du téléphone (le GPS doit être activé).</string>
     <string name="command_title_eco"><![CDATA[!eco <on/off>]]></string>
     <string name="command_desc_eco">Active ou désactive le mode économie d\'énergie du téléphone (requiert Android 5.0).</string>

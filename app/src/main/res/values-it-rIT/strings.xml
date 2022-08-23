@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="preference_file_key">fr.themsou.monitorinternetless.PREFERENCE_FILE_KEY</string>
-    <string name="app_name">Monitor Internetless</string>Vitesse
     <string name="title_numbers">Numeri</string>
-    <string name="title_numbers_full">NNumeri autorizzati</string>
+    <string name="title_numbers_full">Numeri autorizzati</string>
     <string name="title_commands">Comandi</string>
     <string name="title_settings">Parametri</string>
     <string name="menu_about">Informazioni</string>
@@ -16,23 +15,17 @@
     <string name="number_input_number">Numero</string>
     <string name="number_do_not_have_number">Questo contatto non ha un numero di telefono</string>
     <string name="command_desc_info">Invia informazioni al telefono: livello batteria, ultima posizione ecc..</string>
-    <string name="command_title_info">!info</string>
-    <string name="command_title_locate">!localizza</string>
-    <string name="command_title_ring">!suona [durata in secondi]</string>
+    <string name="command_title_ring">!ring [durata in secondi]</string>
     <string name="command_desc_ring">Fa squillare il telefono per 10 secondi. Se viene fornito un argomento, imposterà la durata della suoneria. "!suona 120" squillerà il telefono per 2 minuti.</string>
     <string name="command_desc_locate">Invia posizione del telefono (il GPS deve essere abilitato).</string>
-    <string name="command_title_eco"><![CDATA[!eco <on/off>]]></string>
     <string name="command_desc_eco">Abilita o disabilita la modalità di risparmio energetico del telefono (richiede Android 5.0).</string>
-    <string name="command_title_mobile"><![CDATA[!mobile <on/off>]]></string>
-    <string name="command_desc_mobile">"Abilita o disabilita i dati mobili ( 4G, 5G etc. ). "</string>
-    <string name="command_title_gps"><![CDATA[!gps <on/off>]]></string>
-    <string name="command_desc_gps">Abilita o disabilita il GPS, richiede che l'applicazione sia dichiarata come un'applicazione di sistema (telefono con root</string>
-    <string name="command_title_wifi"><![CDATA[!wifi <on/off>]]></string>
+    <string name="command_desc_mobile">"Abilita o disabilita i dati mobili ( 4G, 5G etc. )."</string>
+    <string name="command_desc_gps">Abilita o disabilita il GPS, richiede che l\'applicazione sia dichiarata come un\'applicazione di sistema (telefono con root)</string>
     <string name="command_desc_wifi">Abilita o disabilita il Wi-Fi</string>
     <string name="commandstab_description">Elenco dei comandi disponibili. Per eseguirli, devono essere inviati a questo telefono tramite SMS con un numero autorizzato.\nAd esempio, il messaggio \"!localizza\" richiederà la posizione del telefono, che verrà restituito tramite SMS.</string>
-    <string name="command_error_no_permission">L'applicazione non dispone delle autorizzazioni necessarie per eseguire questo comando.</string>
-    <string name="command_error_not_enabled">Questo comando non è stato attivato nell'applicazione.</string>
-    <string name="error_no_permission">L'applicazione non può ricevere o inviare SMS. L'applicazione non sarà quindi in grado di eseguire i comandi inviati tramite SMS</string>
+    <string name="command_error_no_permission">L\'applicazione non dispone delle autorizzazioni necessarie per eseguire questo comando.</string>
+    <string name="command_error_not_enabled">Questo comando non è stato attivato nell\'applicazione.</string>
+    <string name="error_no_permission">L\'applicazione non può ricevere o inviare SMS. L\'applicazione non sarà quindi in grado di eseguire i comandi inviati tramite SMS</string>
     <string name="error_no_permission_title">Autorizzazioni non accettate</string>
     <string name="message_ok">OK</string>
     <string name="message_retry">Riprova</string>
@@ -41,10 +34,10 @@
     <string name="add_number_title">Aggiungere un numero</string>
     <string name="add_number_dialog">Inserisci il numero da aggiungere</string>
     <string name="restart_title">Applicazione delle modifiche</string>
-    <string name="restart_dialog">L'applicazione si riavvierà per applicare le modifiche e configurare la ricezione del messaggio.</string>
-    <string name="error_open_permission_settings">È necessario consentire all'app di modificare le impostazioni di sistema (abilitare GPS, dati mobili ecc.) affinché alcune funzioni funzionino correttamente.</string>
+    <string name="restart_dialog">L\'applicazione si riavvierà per applicare le modifiche e configurare la ricezione del messaggio.</string>
+    <string name="error_open_permission_settings">È necessario consentire all\'app di modificare le impostazioni di sistema (abilitare GPS, dati mobili ecc.) affinché alcune funzioni funzionino correttamente.</string>
     <string name="setting_password_title">Password</string>
-    <string name="setting_password_description">Chiede di inserire la password con !login quando qualcuno tenta di inviare comandi. Tutte le autorizzazioni vengono revocate all'avvio dell'app.</string>
+    <string name="setting_password_description">Chiede di inserire la password con !login quando qualcuno tenta di inviare comandi. Tutte le autorizzazioni vengono revocate all\'avvio dell\'app.</string>
     <string name="setting_everyone_allowed_title">Consenti tutti i numeri</string>
     <string name="setting_everyone_allowed_description">Chiunque potrà inviare comandi al tuo telefono. Si consiglia di attivare la funzione password se si attiva questa funzione.</string>
     <string name="title_activity_about">Informazioni sulle attività</string>
@@ -52,11 +45,10 @@
     <string name="developer">Développeur : <a href="https://github.com/ClementGre">Clément Grennerat</a></string>
     <string name="github">GitHub : <a href="https://github.com/ClementGre/Monitor-Internetless">ClementGre/Monitor-Internetless</a></string>
     <string name="issue"><a href="https://github.com/ClementGre/Monitor-Internetless/issues/new">Segnala un Bug</a></string>
-    <string name="mail"><a href="mailto:clement.grennerat@free.fr">clement.grennerat@free.fr</a></string>
     <string name="command_password_required">È richiesta una password, autenticarsi con !login [Password]</string>
     <string name="command_logged_in">Sei autenticato: ora puoi inviare comandi!</string>
-    <string name="command_wrong_password">La password non corrisponde!\nInvia \"!login [Password]\" sostituendo [Password] con la password che hai definito nell'applicazione.</string>
-    <string name="command_password_help">Invia \"!login [Password]\" sostituendo [Password] con la password che hai definito nell'applicazione.</string>
+    <string name="command_wrong_password">La password non corrisponde!\nInvia \"!login [Password]\" sostituendo [Password] con la password che hai definito nell\'applicazione.</string>
+    <string name="command_password_help">Invia \"!login [Password]\" sostituendo [Password] con la password che hai definito nell\'applicazione.</string>
     <string name="unknown">Sconosciuto</string>
     <string name="info_enabled">Attivato</string>
     <string name="info_disabled">Disattivato</string>
@@ -68,10 +60,9 @@
     <string name="info_accuracy">Precisione</string>
     <string name="info_location_unknown">Posizione sconosciuta</string>
     <string name="info_error_gps_disabled">Il GPS è disattivato: impossibile recuperare la posizione.</string>
-    <string name="info_localizing">Localizzazione in corso…\nL'operazione potrebbe richiedere fino a un minuto</string>
+    <string name="info_localizing">Localizzazione in corso…\nL\'operazione potrebbe richiedere fino a un minuto</string>
     <string name="info_latitude">Latitudine</string>
     <string name="info_longitude">Longitudine</string>
     <string name="info_bearing">Direzione</string>
     <string name="info_speed">Velocità</string>
-
-</resources>tless/1.0.2/app/src/main/res/values/strings.xml
+</resources>

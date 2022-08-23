@@ -16,3 +16,7 @@ Le fichier .apk de l'application peut être téléchargé dans l'[onglet Release
 ![](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/preview/preview1.png) ![](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/preview/preview2.png)
 
 ![Logo](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/preview/logo_semi_rounded.png)
+
+## Contributions
+
+Merci à Albano Battistella pour les traductions Italiennes.

@@ -1,6 +1,6 @@
 <resources>
-    <string name="preference_file_key">fr.themsou.monitorinternetless.PREFERENCE_FILE_KEY</string>
-    <string name="app_name">Monitor Internetless</string>
+    <string name="preference_file_key" translatable="false">fr.themsou.monitorinternetless.PREFERENCE_FILE_KEY</string>
+    <string name="app_name" translatable="false">Monitor Internetless</string>
     <string name="title_numbers">Numéros</string>
     <string name="title_numbers_full">Numéros Autorisés</string>
     <string name="title_commands">Commandes</string>
@@ -16,18 +16,18 @@
     <string name="number_input_number">Numéro</string>
     <string name="number_do_not_have_number">Ce contact n\'a pas de numéro de téléphone</string>
     <string name="command_desc_info">Envoie des informations sur le téléphone : niveau de batterie, dernière position etc.</string>
-    <string name="command_title_info">!info</string>
-    <string name="command_title_locate">!locate</string>
+    <string name="command_title_info" translatable="false">!info</string>
+    <string name="command_title_locate" translatable="false">!locate</string>
     <string name="command_title_ring">!ring [durée en secondes]</string>
     <string name="command_desc_ring">Fait sonner le téléphone pour 10 secondes. Si un argument est fournis, il définira la durée de sonnerie. "!ring 120" fera sonner le téléphone durant 2 minutes.</string>
     <string name="command_desc_locate">Envoie la position du téléphone (le GPS doit être activé).</string>
-    <string name="command_title_eco"><![CDATA[!eco <on/off>]]></string>
+    <string name="command_title_eco" translatable="false"><![CDATA[!eco <on/off>]]></string>
     <string name="command_desc_eco">Active ou désactive le mode économie d\'énergie du téléphone (requiert Android 5.0).</string>
-    <string name="command_title_mobile"><![CDATA[!mobile <on/off>]]></string>
+    <string name="command_title_mobile" translatable="false"><![CDATA[!mobile <on/off>]]></string>
     <string name="command_desc_mobile">"Active ou désactive les données mobiles ( 4G, 5G etc. ). "</string>
-    <string name="command_title_gps"><![CDATA[!gps <on/off>]]></string>
+    <string name="command_title_gps" translatable="false"><![CDATA[!gps <on/off>]]></string>
     <string name="command_desc_gps">Active ou désactive le GPS, nécessite que l\'application soit déclarée comme application système (téléphone rooté)</string>
-    <string name="command_title_wifi"><![CDATA[!wifi <on/off>]]></string>
+    <string name="command_title_wifi" translatable="false"><![CDATA[!wifi <on/off>]]></string>
     <string name="command_desc_wifi">Active ou désactive le Wifi</string>
     <string name="commandstab_description">Liste des commandes disponibles. Pour les exécuter, il faut les envoyer à ce téléphone par SMS avec un numéro autorisé.\nPar exemple, le message \"!locate\" va demander la localisation du téléphone, qui sera renvoyée par SMS.</string>
     <string name="command_error_no_permission">L\'application n\'a pas les permissions nécessaires pour exécuter cette commande.</string>
@@ -52,7 +52,7 @@
     <string name="developer">Développeur : <a href="https://github.com/ClementGre">Clément Grennerat</a></string>
     <string name="github">GitHub : <a href="https://github.com/ClementGre/Monitor-Internetless">ClementGre/Monitor-Internetless</a></string>
     <string name="issue"><a href="https://github.com/ClementGre/Monitor-Internetless/issues/new">Signaler un Bug</a></string>
-    <string name="mail"><a href="mailto:clement.grennerat@free.fr">clement.grennerat@free.fr</a></string>
+    <string name="mail" translatable="false"><a href="mailto:clement.grennerat@free.fr">clement.grennerat@free.fr</a></string>
     <string name="command_password_required">Un mot de passe est requis, authentifiez-vous avec !login [Mot de passe]</string>
     <string name="command_logged_in">Vous êtes authentifiés : vous pouvez maintenant envoyer des commandes !</string>
     <string name="command_wrong_password">Le mot de passe ne correspond pas !\nEnvoyez \"!login [Mot de passe]\" en remplaçant [Mot de passe] par le mot de passe que vous avez définis dans l\'application.</string>

@@ -2,17 +2,12 @@ package fr.themsou.monitorinternetless.commander;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
-import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
-
-import androidx.core.util.Predicate;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -52,6 +47,7 @@ public class InfoCommandExecutor{
                     try{
                         if(location != null){
                             asyncResult.put("\n" +
+                                    "  Maps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() +"\n" +
                                     "  Lat/long : " + location.getLatitude() + "° " + location.getLongitude() + "°\n" +
                                     "  " + context.getString(R.string.info_accuracy) + " : " + location.getAccuracy() + " m" + "\n" +
                                     "  Date : " + new Date(location.getTime()).toString());

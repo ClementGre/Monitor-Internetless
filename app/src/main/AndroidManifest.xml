@@ -27,11 +27,8 @@
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
-        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!-- ABOUT GUI -->
         <activity
@@ -43,9 +40,7 @@
         <!-- GUI -->
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:exported="true"
-            android:launchMode="singleInstance">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,15 +53,11 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter android:priority="1000">
+
+            <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <!-- LOCATION -->
-        <receiver
-            android:name=".commander.LocateReceiver"
-            android:enabled="true"
-            android:exported="true" />
     </application>
 
 </manifest>

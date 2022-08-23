@@ -1,19 +1,15 @@
 package fr.themsou.monitorinternetless.commander;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
-import android.telephony.TelephonyManager;
 import android.util.Log;
-import androidx.core.util.Consumer;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.regex.Pattern;
@@ -80,6 +76,7 @@ public class SMSTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        Log.d(TAG, "Post Execute");
         // Must call finish() so the BroadcastReceiver can be recycled.
         if(pendingResult != null){
             pendingResult.finish();
@@ -97,12 +94,10 @@ public class SMSTask extends AsyncTask<String, Integer, String> {
             boolean authorized = false;
             ArrayList<Number> authorizedNumbers;
             final BlockingQueue<ArrayList<Number>> asyncResult = new SynchronousQueue<>();
-            Number.getNumbersOutsideActivity(context, new Consumer<ArrayList<Number>>() {
-                @Override public void accept(ArrayList<Number> numbers) {
-                    try{
-                        asyncResult.put(numbers);
-                    }catch(InterruptedException e){ e.printStackTrace(); }
-                }
+            Number.getNumbersOutsideActivity(context, numbers -> {
+                try{
+                    asyncResult.put(numbers);
+                }catch(InterruptedException e){ e.printStackTrace(); }
             });
 
             try{

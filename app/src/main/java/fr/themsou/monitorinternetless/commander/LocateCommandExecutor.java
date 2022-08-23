@@ -1,15 +1,18 @@
 package fr.themsou.monitorinternetless.commander;
 
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
+import android.location.Location;
 import android.location.LocationManager;
+import android.os.Looper;
+import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
@@ -17,10 +20,11 @@ import fr.themsou.monitorinternetless.R;
 
 public class LocateCommandExecutor{
 
-    public static BlockingQueue<String> locateAsyncResult;
+    public static BlockingQueue<Location> locateAsyncResult;
 
     private final Context context;
     private final CommandExecutor commandExecutor;
+    private static final String TAG = "LocateCommandExecutor";
     public LocateCommandExecutor(Context context, CommandExecutor commandExecutor){
         this.context = context;
         this.commandExecutor = commandExecutor;
@@ -36,26 +40,36 @@ public class LocateCommandExecutor{
             commandExecutor.reply(context.getString(R.string.info_localizing));
 
             locateAsyncResult = new SynchronousQueue<>();
+
             final FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
 
-            LocationRequest locationRequest = new LocationRequest();
-            locationRequest.setNumUpdates(1);
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            LocationRequest locationRequest = LocationRequest.create()
+                    .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                    .setNumUpdates(1);
+            LocateReceiver locationCallback = new LocateReceiver();
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
-            Intent intent = new Intent(context, LocateReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            fusedLocationClient.requestLocationUpdates(locationRequest, pendingIntent);
+            Log.d(TAG, "Location requested");
 
-            String location = "";
+            Location location = null;
             try{
                 location = locateAsyncResult.take();
-                fusedLocationClient.removeLocationUpdates(pendingIntent);
+                Log.d(TAG, "Location took");
+                fusedLocationClient.removeLocationUpdates(locationCallback);
             }catch(InterruptedException e){ e.printStackTrace(); }
 
             locateAsyncResult = null;
 
-            if(!location.isEmpty()){
-                commandExecutor.replyAndTerminate(location);
+            if(location != null){
+
+                commandExecutor.replyAndTerminate(
+                        "Maps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() +"\n" +
+                        context.getString(R.string.info_latitude) + " : " + location.getLatitude() + "°\n" +
+                        context.getString(R.string.info_longitude) + " : " + location.getLongitude() + "°\n" +
+                        context.getString(R.string.info_accuracy) + " : " + location.getAccuracy() + " m" + "\n" +
+                        context.getString(R.string.info_bearing) + " : " + location.getBearing() + "°\n" +
+                        context.getString(R.string.info_speed) + " : " + location.getSpeed() + " m/s \n" +
+                        "Date : " + new Date(location.getTime()).toString());
             }else{
                 commandExecutor.replyAndTerminate(context.getString(R.string.info_location_unknown));
             }

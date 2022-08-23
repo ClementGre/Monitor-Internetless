@@ -41,10 +41,13 @@ public class CommandExecutor {
                         switch (context.getString(command.getTitle()).split(Pattern.quote(" "))[0]){
                             case "!info":
                                 new InfoCommandExecutor(context, this).execute(args);
+                                break;
                             case "!locate":
                                 new LocateCommandExecutor(context, this).execute(args);
+                                break;
                             case "!ring":
                                 new RingCommandExecutor(context, this).execute(args);
+                                break;
                         }
 
                     }else replyAndTerminate(context.getString(R.string.command_error_no_permission));

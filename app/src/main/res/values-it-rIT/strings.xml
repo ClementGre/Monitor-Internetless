@@ -42,7 +42,7 @@
     <string name="setting_everyone_allowed_description">Chiunque potrà inviare comandi al tuo telefono. Si consiglia di attivare la funzione password se si attiva questa funzione.</string>
     <string name="title_activity_about">Informazioni sulle attività</string>
     <string name="app_version">Versione 1.0.0</string>
-    <string name="developer">Développeur : <a href="https://github.com/ClementGre">Clément Grennerat</a></string>
+    <string name="developer">Sviluppatore : <a href="https://github.com/ClementGre">Clément Grennerat</a></string>
     <string name="github">GitHub : <a href="https://github.com/ClementGre/Monitor-Internetless">ClementGre/Monitor-Internetless</a></string>
     <string name="issue"><a href="https://github.com/ClementGre/Monitor-Internetless/issues/new">Segnala un Bug</a></string>
     <string name="command_password_required">È richiesta una password, autenticarsi con !login [Password]</string>
@@ -53,7 +53,7 @@
     <string name="info_enabled">Attivato</string>
     <string name="info_disabled">Disattivato</string>
     <string name="info_battery">Batteria</string>
-    <string name="info_celular">DDati mobili</string>
+    <string name="info_celular">Dati mobili</string>
     <string name="info_power_saver">Risparmio energetico</string>
     <string name="info_last_location">Ultima posizione</string>
     <string name="info_gps_disabled">GPS disattivato</string>

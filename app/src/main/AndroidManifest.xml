@@ -21,12 +21,15 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <!-- !mobile -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- !gps -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- !wifi -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- !bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
@@ -61,6 +64,13 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+        <!-- Location Service -->
+        <service
+            android:name=".commander.LocationService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="location"/>
+
     </application>
 
 </manifest>

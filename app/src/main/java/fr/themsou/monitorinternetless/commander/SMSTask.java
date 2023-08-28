@@ -67,7 +67,7 @@ public class SMSTask extends AsyncTask<String, Integer, String> {
 
             CommandExecutor executor = new CommandExecutor(messageBody.split(Pattern.quote(" ")), context, messageFrom);
             String result = executor.executeAuto();
-            Log.d(TAG, "doInBackground: CommandExecutor have return \"" +  result + "\"");
+            Log.d(TAG, "doInBackground: CommandExecutor returned \"" +  result + "\"");
 
             return "completed";
         }

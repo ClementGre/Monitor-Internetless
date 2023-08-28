@@ -9,13 +9,7 @@ import android.os.BatteryManager;
 import android.os.PowerManager;
 import android.provider.Settings;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-
 import java.util.Date;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.SynchronousQueue;
 
 import fr.themsou.monitorinternetless.R;
 
@@ -38,31 +32,14 @@ public class InfoCommandExecutor{
 
         // LASTLOCATION
         String lastLocation = context.getString(R.string.unknown);
+
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if(lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            final BlockingQueue<String> asyncResult = new SynchronousQueue<>();
-            FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-            fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override public void onSuccess(Location location) {
-                    try{
-                        if(location != null){
-                            asyncResult.put("\n" +
-                                    "  Maps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() +"\n" +
-                                    "  Lat/long : " + location.getLatitude() + "° " + location.getLongitude() + "°\n" +
-                                    "  " + context.getString(R.string.info_accuracy) + " : " + location.getAccuracy() + " m" + "\n" +
-                                    "  Date : " + new Date(location.getTime()).toString());
-                        }else{
-                            asyncResult.put("Unknown");
-                        }
-                    }catch(InterruptedException e){ e.printStackTrace(); }
-                }
-            });
-            try{
-                lastLocation = asyncResult.take();
-            }catch(InterruptedException e){ e.printStackTrace(); }
-        }else{
-            lastLocation = context.getString(R.string.info_gps_disabled);
-        }
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        lastLocation = "\n" +
+                "  Maps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() +"\n" +
+                "  Lat/long : " + location.getLatitude() + "° " + location.getLongitude() + "°\n" +
+                "  " + context.getString(R.string.info_accuracy) + " : " + location.getAccuracy() + " m" + "\n" +
+                "  Date : " + new Date(location.getTime());
 
         String powerSaver = context.getString(R.string.unknown);
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);

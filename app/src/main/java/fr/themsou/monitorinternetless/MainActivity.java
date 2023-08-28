@@ -191,6 +191,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         channel.setDescription(description);
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
+
+        CharSequence name2 = "Localisation";
+        String description2 = "Notification pour alerter d'une localisation en cours pour la commande !locate";
+        int importance2 = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel2 = new NotificationChannel("locate", name, importance);
+        channel2.setDescription(description2);
+        NotificationManager notificationManager2 = getSystemService(NotificationManager.class);
+        notificationManager2.createNotificationChannel(channel2);
     }
 
 }

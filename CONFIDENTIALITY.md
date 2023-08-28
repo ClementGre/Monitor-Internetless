@@ -1,0 +1,1 @@
+The app does not make any network access. Nor the developer nor any other company have access to any of your data through this application.

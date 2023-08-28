@@ -2,8 +2,8 @@
 
 ## Monitor Internetless
 
-Cette application a pour but de permettre le contrôle de son téléphone depuis un autre téléphone sans aucune connexion internet.
-Les donnés transitent par SMS ce qui permet par exemple aux utilisateurs de retrouver leur téléphone perdus même si le téléphone n'avait aucune connexion internet lors de sa perte.
+Cette application permet le contrôle de son téléphone depuis un autre téléphone sans aucune connexion internet.
+Les donnés transitent par SMS ce qui permet par exemple aux utilisateurs de retrouver leur téléphone perdus même si le téléphone na aucune connexion internet.
 
 Seulement deux commandes sont disponibles dû aux limitations d'android (il est impossible d'activer le GPS ou les données mobiles sans une intéraction de l'utilisateur dans les versions récentes d'Android). La commande !info permet de récupérer tout types d'informations sur le téléphone, et la commande !locate permet de localiser le téléphone.
 
@@ -16,7 +16,3 @@ Le fichier .apk de l'application peut être téléchargé dans l'[onglet Release
 ![](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/preview/preview1.png) ![](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/preview/preview2.png)
 
 ![Logo](https://raw.githubusercontent.com/ClementGre/Monitor-Internetless/master/preview/logo_semi_rounded.png)
-
-## Contributions
-
-Merci à Albano Battistella pour les traductions Italiennes.

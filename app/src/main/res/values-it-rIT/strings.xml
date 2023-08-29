@@ -18,7 +18,7 @@
     <string name="command_title_ring">!ring [durata in secondi]</string>
     <string name="command_desc_ring">Fa squillare il telefono per 10 secondi. Se viene fornito un argomento, imposterà la durata della suoneria. "!suona 120" squillerà il telefono per 2 minuti.</string>
     <string name="command_desc_locate">Invia posizione del telefono (il GPS deve essere abilitato).</string>
-    <string name="command_desc_eco">Abilita o disabilita la modalità di risparmio energetico del telefono (richiede Android 5.0).</string>
+    <string name="command_desc_eco">Abilita o disabilita la modalità di risparmio energetico del telefono.</string>
     <string name="command_desc_mobile">"Abilita o disabilita i dati mobili ( 4G, 5G etc. )."</string>
     <string name="command_desc_gps">Abilita o disabilita il GPS, richiede che l\'applicazione sia dichiarata come un\'applicazione di sistema (telefono con root)</string>
     <string name="command_desc_wifi">Abilita o disabilita il Wi-Fi</string>

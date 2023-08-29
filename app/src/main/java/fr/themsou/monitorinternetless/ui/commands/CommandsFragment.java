@@ -61,13 +61,13 @@ public class CommandsFragment extends Fragment {
           //      context, Manifest.permission.CHANGE_CONFIGURATION));
 
         //commands.add(new Command("mobile", R.drawable.ic_baseline_swap_vert_24, R.string.command_title_mobile, R.string.command_desc_mobile,
-          //      context, Manifest.permission.CHANGE_NETWORK_STATE));
+          //      context, Manifest.permission.CHANGE_NETWORK_STATE, Manifest.permission.WRITE_SETTINGS, Manifest.permission.WRITE_SECURE_SETTINGS));
 
         //commands.add(new Command("gps", R.drawable.ic_baseline_location_on_24, R.string.command_title_gps, R.string.command_desc_gps,
-          //      context, Manifest.permission.WRITE_SETTINGS, Manifest.permission.WRITE_SECURE_SETTINGS));
+          //      context, Manifest.permission.WRITE_SECURE_SETTINGS));
 
         //commands.add(new Command("wifi", R.drawable.ic_baseline_wifi_24, R.string.command_title_wifi, R.string.command_desc_wifi,
-          //      context, Manifest.permission.CHANGE_WIFI_STATE));
+          //      context, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.UPDATE_DEVICE_STATS));
 
         return commands;
     }

@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     // Write settings permission (not used for the current commands)
     // This will only grant WRITE_SETTINGS
     // To grand WRITE_SECURE_SETTINGS, run
+    // adb devices
+    //
     // adb shell pm grant fr.themsou.monitorinternetless android.permission.WRITE_SECURE_SETTINGS
     // MacOS: brew install android-platform-tools | Windows: winget install --id Google.PlatformTools | Debian : sudo apt-get update && sudo apt-get -y install android-tools-adb
     public void checkAdvancedPermissions(){

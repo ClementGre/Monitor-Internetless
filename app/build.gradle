@@ -89,4 +89,7 @@ dependencies {
 
     // MULTIDEX
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // GAPPS
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 }

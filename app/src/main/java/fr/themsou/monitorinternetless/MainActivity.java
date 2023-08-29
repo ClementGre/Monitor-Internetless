@@ -11,10 +11,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
-import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,17 +56,26 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         getSupportActionBar().setCustomView(R.layout.top_toolbar);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+        // Commands as default selected tab
+        navController.navigate(R.id.navigation_logs);
 
+        // About menu
         Toolbar toolBar = (Toolbar) getSupportActionBar().getCustomView();
-        toolBar.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
-            @Override public boolean onMenuItemClick(MenuItem item){
-                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left);
-                return true;
-            }
+        toolBar.getMenu().getItem(0).setOnMenuItemClickListener(item -> {
+            Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fab_slide_in_from_right, R.anim.fab_slide_out_to_left);
+            return true;
         });
 
+
+        initNotificationsChannels();
+        checkBasePermissions();
+        //checkAdvancedPermissions();
+        checkIgnoreBatteryOptimization();
+
+
+        // Disable ring
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.cancel(1);
         if(RingCommandExecutor.mediaPlayer != null && RingCommandExecutor.mediaPlayer.isPlaying()){
@@ -76,23 +84,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, RingCommandExecutor.oldVolume, 0);
         }
 
-        initNotificationsChannels();
-        checkBasePermissions(this);
-        //checkAdvancedPermissions(this);
-
+        // Remove logged-in numbers
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove("authorizednumbers");
         editor.commit();
-
     }
 
-    public void checkBasePermissions(final MainActivity activity){
+    public void checkBasePermissions(){
         if(!permissionRequester.isGranted(Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS)){
             permissionRequester.grantSome(new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS}, new Consumer<Boolean>() {
                 @Override public void accept(Boolean accepted) {
                     if(accepted){
-                        new AlertDialog.Builder(activity)
+                        new AlertDialog.Builder(getApplicationContext())
                                 .setTitle(getString(R.string.restart_title))
                                 .setMessage(getString(R.string.restart_dialog))
                                 .setPositiveButton(getString(R.string.message_ok), new DialogInterface.OnClickListener() {
@@ -101,12 +105,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                                     }
                                 }).show();
                     }else{
-                        new AlertDialog.Builder(activity)
+                        new AlertDialog.Builder(getApplicationContext())
                                 .setTitle(getString(R.string.error_no_permission_title))
                                 .setMessage(getString(R.string.error_no_permission))
                                 .setPositiveButton(getString(R.string.message_retry), new DialogInterface.OnClickListener() {
                                     @Override public void onClick(DialogInterface dialog, int which) {
-                                        checkBasePermissions(activity);
+                                        checkBasePermissions();
                                     }
                                 }).setNegativeButton(getString(R.string.message_ok), new DialogInterface.OnClickListener(){ @Override public void onClick(DialogInterface dialog, int which){ } }).show();
                     }
@@ -114,32 +118,51 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             });
         }
     }
-    public void checkAdvancedPermissions(final MainActivity activity){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (!Settings.System.canWrite(this)){
-                new AlertDialog.Builder(activity)
-                    .setTitle(getString(R.string.error_no_permission_title))
-                    .setMessage(getString(R.string.error_open_permission_settings))
-                    .setPositiveButton(getString(R.string.message_ok), new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                        intent.setData(Uri.parse("package:" + activity.getApplicationContext().getPackageName()));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.getApplicationContext().startActivity(intent);
-                        }
-                    }).show();
-            }
-        }else{
-            new AlertDialog.Builder(activity)
-                    .setTitle(getString(R.string.error_no_permission_title))
-                    .setMessage(getString(R.string.error_open_permission_settings))
-                    .setPositiveButton(getString(R.string.message_ok), new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).show();
+    // Write settings permission (not used for the current commands)
+    // This will only grant WRITE_SETTINGS
+    // To grand WRITE_SECURE_SETTINGS, run
+    // adb shell pm grant fr.themsou.monitorinternetless android.permission.WRITE_SECURE_SETTINGS
+    // MacOS: brew install android-platform-tools | Windows: winget install --id Google.PlatformTools | Debian : sudo apt-get update && sudo apt-get -y install android-tools-adb
+    public void checkAdvancedPermissions(){
+        if (!Settings.System.canWrite(this)) {
+            new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.error_no_permission_title))
+                .setMessage(getString(R.string.error_open_permission_settings))
+                .setPositiveButton(getString(R.string.message_ok), (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }).show();
         }
     }
 
+    // The app must execute commands at the time they are received.
+    // Disabling the battery optimization is not mandatory,
+    // but the user will be notified of this being able to fix eventual issues.
+    private void checkIgnoreBatteryOptimization() {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        if(sharedPref.getBoolean("ignoreBatteryOptimization", false)) return;
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (pm == null || pm.isIgnoringBatteryOptimizations(getPackageName())) return;
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.dialog_battery_optimization_title))
+                .setMessage(getString(R.string.dialog_battery_optimization_message))
+                .setPositiveButton(getString(R.string.message_ok), (dialog, which) -> {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
+                })
+                .setNegativeButton(getString(R.string.message_ignore), (dialog, which) -> {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("ignoreBatteryOptimization", true);
+                    editor.commit();
+                })
+                .show();
+    }
 
     public Toolbar getTopToolBar(){
         return (Toolbar) getSupportActionBar().getCustomView();
@@ -184,21 +207,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void initNotificationsChannels(){
-        CharSequence name = "Sonnerie";
-        String description = "Notification pour alerter de la sonnerie du téléphone avec la commande !ring";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("ring", name, importance);
+        initNotificationChannel("ring", getString(R.string.notificationchannel_ring_title),
+                getString(R.string.notificationchannel_ring_description),
+                NotificationManager.IMPORTANCE_DEFAULT);
+        initNotificationChannel("locate", getString(R.string.notificationchannel_locate_title),
+                getString(R.string.notificationchannel_locate_description),
+                NotificationManager.IMPORTANCE_LOW);
+    }
+    private void initNotificationChannel(String id, String name, String description, int importance){
+        NotificationChannel channel = new NotificationChannel(id, name, importance);
         channel.setDescription(description);
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
-
-        CharSequence name2 = "Localisation";
-        String description2 = "Notification pour alerter d'une localisation en cours pour la commande !locate";
-        int importance2 = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel2 = new NotificationChannel("locate", name, importance);
-        channel2.setDescription(description2);
-        NotificationManager notificationManager2 = getSystemService(NotificationManager.class);
-        notificationManager2.createNotificationChannel(channel2);
     }
 
 }

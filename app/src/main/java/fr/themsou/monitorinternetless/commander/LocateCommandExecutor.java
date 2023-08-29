@@ -52,6 +52,6 @@ public class LocateCommandExecutor{
         }catch(InterruptedException e){
             e.printStackTrace();
             commandExecutor.replyAndTerminate(context.getString(R.string.info_location_unknown));
-        }/**/
+        }
     }
 }

@@ -1,11 +1,10 @@
 package fr.themsou.monitorinternetless.commander;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.pm.ServiceInfo;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,7 +15,6 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import java.util.concurrent.BlockingQueue;
@@ -38,19 +36,16 @@ public class LocationService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.d(CHANNEL_ID, "created()");
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = location -> {
-            Log.d(CHANNEL_ID, "Location listener received, filling locationQueue...");
-            Log.d("Locations", location.getLatitude() + "," + location.getLongitude());
+            Log.d(CHANNEL_ID, "Location listener called. lat,long:" + location.getLatitude() + "," + location.getLongitude());
             locationQueue.add(location);
         };
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        Log.d(CHANNEL_ID, "onStartCommand()");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(NOTIFICATION_ID, createNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
@@ -58,11 +53,7 @@ public class LocationService extends Service {
             startForeground(NOTIFICATION_ID, createNotification());
         }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d(CHANNEL_ID, "No permission for location!");
-        }
         locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, Looper.getMainLooper());
-
         return START_STICKY;
     }
 
@@ -70,10 +61,10 @@ public class LocationService extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
-        return new NotificationCompat.Builder(this, "ring")
+        return new NotificationCompat.Builder(this, "locate")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Localisation en cours")
-                .setContentText("Une commande \"!locate\" entraîne une localisation de l'appareil...")
+                .setContentTitle(getString(R.string.locate_notification_title))
+                .setContentText(getString(R.string.locate_notification_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)

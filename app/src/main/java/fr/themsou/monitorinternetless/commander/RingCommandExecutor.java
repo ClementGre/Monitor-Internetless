@@ -72,8 +72,8 @@ public class RingCommandExecutor {
 
             Notification notification = new NotificationCompat.Builder(context, "ring")
                     .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Sonnerie")
-                    .setContentText("Le téléphone sonne ! Appuyez pour couper le son.")
+                    .setContentTitle(context.getString(R.string.ring_notification_title))
+                    .setContentText(context.getString(R.string.ring_notification_text))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -86,22 +86,26 @@ public class RingCommandExecutor {
 
 
             final int finalDuration = duration;
-            new Thread(new Runnable() {
-                public void run() {
-                    try{ Thread.sleep(1000L * finalDuration); }catch(InterruptedException e){ e.printStackTrace();}
-                    mediaPlayer.stop();
-                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, oldVolume, 0);
-                    notificationManager.cancel(1);
-                }
+            new Thread(() -> {
+                try{ Thread.sleep(1000L * finalDuration); }catch(InterruptedException e){ e.printStackTrace();}
+                mediaPlayer.stop();
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, oldVolume, 0);
+                notificationManager.cancel(1);
             }).start();
 
-            String durationString = duration < 60 ? (duration + " secondes") : "" + ((duration/60) + " minutes et " + (duration%60) + " secondes");
-            commandExecutor.replyAndTerminate("Le téléphone sonne pour " + durationString + " !");
+            int minutes = duration / 60;
+            int seconds = duration % 60;
+            if (minutes == 0){
+                commandExecutor.replyAndTerminate(context.getString(R.string.ring_reply_message_seconds, seconds));
+            }else{
+                commandExecutor.replyAndTerminate(context.getString(R.string.ring_reply_message, minutes, seconds));
+            }
+
 
         }catch (IOException | IllegalArgumentException | IllegalStateException | SecurityException e){
             e.printStackTrace();
 
-            commandExecutor.replyAndTerminate("Impossible de faire sonner le téléphone");
+            commandExecutor.replyAndTerminate(context.getString(R.string.ring_error));
         }
 
 

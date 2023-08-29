@@ -20,7 +20,7 @@ public class CommandExecutor {
 
     private final String[] args;
     private final Context context;
-    private final String fromNumber;
+    public final String fromNumber;
     public CommandExecutor(String[] args, Context context, String fromNumber){
         this.args = args;
         this.context = context;
@@ -55,16 +55,16 @@ public class CommandExecutor {
                 break;
             }
         }
-        if(terminatedMessage == null) return "No terminated message, a fail probably occurred";
+        if(terminatedMessage == null) return "No terminated message";
         else return terminatedMessage;
     }
 
 
     public void replyAndTerminate(String message){
-        reply(message);
+        reply(fromNumber, message);
         terminate("From replyAndTerminate() \"" + message + "\"");
     }
-    public void reply(String message){
+    public static void reply(String fromNumber, String message){
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendMultipartTextMessage(fromNumber, null, smsManager.divideMessage(message), null, null);
     }

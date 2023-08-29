@@ -32,7 +32,7 @@ public class CommandsFragment extends Fragment {
         listView = root.findViewById(R.id.command_listview);
         listView.addHeaderView(layoutInflater.inflate(R.layout.header_commands, null));
 
-        adapter = new CommandsListAdapter(getContext(), ((MainActivity) getActivity()), getCommands((MainActivity) getActivity()));
+        adapter = new CommandsListAdapter(getContext(), ((MainActivity) getActivity()), getCommands(getActivity()));
         listView.setAdapter(adapter);
 
 

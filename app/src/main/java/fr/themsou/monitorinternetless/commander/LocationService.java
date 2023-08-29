@@ -19,8 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Date;
 
 import fr.themsou.monitorinternetless.MainActivity;
 import fr.themsou.monitorinternetless.R;
@@ -28,16 +27,16 @@ import fr.themsou.monitorinternetless.R;
 public class LocationService extends Service implements LocationListener {
 
     private LocationManager locationManager;
-
-    private static final BlockingQueue<Location> locationQueue = new LinkedBlockingQueue<>();
+    private String number;
 
     private static final int NOTIFICATION_ID = 2;
     private static final String CHANNEL_ID = "LocationService";
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        locationQueue.clear();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     }
 
@@ -45,7 +44,7 @@ public class LocationService extends Service implements LocationListener {
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-
+        number = intent.getStringExtra("number");
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             startForeground(NOTIFICATION_ID, createNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
@@ -60,7 +59,15 @@ public class LocationService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(@NonNull Location location) {
         Log.d(CHANNEL_ID, "Location listener called. lat,long:" + location.getLatitude() + "," + location.getLongitude());
-        locationQueue.add(location);
+
+        CommandExecutor.reply(number,
+                "Maps : https://www.google.com/maps/place/" + location.getLatitude() + "%20" + location.getLongitude() + "\n" +
+                        getString(R.string.info_latitude) + " : " + location.getLatitude() + "°\n" +
+                        getString(R.string.info_longitude) + " : " + location.getLongitude() + "°\n" +
+                        getString(R.string.info_accuracy) + " : " + location.getAccuracy() + " m" + "\n" +
+                        getString(R.string.info_bearing) + " : " + location.getBearing() + "°\n" +
+                        getString(R.string.info_speed) + " : " + location.getSpeed() + " m/s \n" +
+                        "Date : " + new Date(location.getTime()));
 
         stopForeground(true);
         stopSelf();
@@ -86,9 +93,5 @@ public class LocationService extends Service implements LocationListener {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    public static BlockingQueue<Location> getLocationQueue() {
-        return locationQueue;
     }
 }

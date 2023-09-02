@@ -7,7 +7,7 @@
         android:title="@string/title_numbers" />
 
     <item
-        android:id="@+id/navigation_logs"
+        android:id="@+id/navigation_commands"
         android:icon="@drawable/ic_baseline_playlist_add_check_24"
         android:title="@string/title_commands" />
 

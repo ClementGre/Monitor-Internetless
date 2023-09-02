@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_numbers, R.id.navigation_logs, R.id.navigation_settings).build();
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_numbers, R.id.navigation_commands, R.id.navigation_settings).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         getSupportActionBar().setCustomView(R.layout.top_toolbar);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
-        // Commands as default selected tab
-        navController.navigate(R.id.navigation_logs);
+
+        navView.setSelectedItemId(R.id.navigation_commands);
 
         // About menu
         Toolbar toolBar = (Toolbar) getSupportActionBar().getCustomView();

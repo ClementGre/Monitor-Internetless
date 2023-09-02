@@ -48,7 +48,7 @@
     <string name="setting_everyone_allowed_title">Autoriser tous les numéros</string>
     <string name="setting_everyone_allowed_description">N\'importe qui pourra envoyer des commandes sur votre téléphone. Il est conseillé d\'activer la fonction de mot de passe si vous activez celle-ci.</string>
     <string name="title_activity_about">AboutActivity</string>
-    <string name="app_version">Version 1.0.3</string>
+    <string name="app_version">Version 1.0.4</string>
     <string name="developer">Développeur : <a href="https://github.com/ClementGre">Clément Grennerat</a></string>
     <string name="github">GitHub : <a href="https://github.com/ClementGre/Monitor-Internetless">ClementGre/Monitor-Internetless</a></string>
     <string name="issue"><a href="https://github.com/ClementGre/Monitor-Internetless/issues/new">Signaler un Bug</a></string>

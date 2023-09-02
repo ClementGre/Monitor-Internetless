@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_numbers" />
 
     <fragment
-        android:id="@+id/navigation_logs"
+        android:id="@+id/navigation_commands"
         android:name="fr.themsou.monitorinternetless.ui.commands.CommandsFragment"
         android:label="@string/title_commands"
         tools:layout="@layout/fragment_commands" />

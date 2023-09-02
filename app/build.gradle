@@ -84,6 +84,11 @@ dependencies {
     // optional - Test helpers
     androidTestImplementation "androidx.work:work-testing:$work_version"
 
+    // ListenableFuture
+    implementation "com.google.guava:guava:31.0.1-android"
+    implementation "androidx.concurrent:concurrent-futures:1.1.0"
+
+
     // PHONE Number
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.11'
 

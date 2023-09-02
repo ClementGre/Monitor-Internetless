@@ -21,14 +21,6 @@
     <string name="command_title_ring">!ring [durée en secondes]</string>
     <string name="command_desc_ring">Fait sonner le téléphone pour 10 secondes. Si un argument est fournis, il définira la durée de sonnerie. "!ring 120" fera sonner le téléphone durant 2 minutes.</string>
     <string name="command_desc_locate">Envoie la position du téléphone (le GPS doit être activé).</string>
-    <string name="command_title_eco" translatable="false"><![CDATA[!eco <on/off>]]></string>
-    <string name="command_desc_eco">Active ou désactive le mode économie d\'énergie du téléphone.</string>
-    <string name="command_title_mobile" translatable="false"><![CDATA[!mobile <on/off>]]></string>
-    <string name="command_desc_mobile">"Active ou désactive les données mobiles ( 4G, 5G etc. ). "</string>
-    <string name="command_title_gps" translatable="false"><![CDATA[!gps <on/off>]]></string>
-    <string name="command_desc_gps">Active ou désactive le GPS, nécessite que l\'application soit déclarée comme application système (téléphone rooté)</string>
-    <string name="command_title_wifi" translatable="false"><![CDATA[!wifi <on/off>]]></string>
-    <string name="command_desc_wifi">Active ou désactive le Wifi</string>
     <string name="commandstab_description">Liste des commandes disponibles. Pour les exécuter, il faut les envoyer à ce téléphone par SMS avec un numéro autorisé.\nPar exemple, le message \"!locate\" va demander la localisation du téléphone, qui sera renvoyée par SMS.</string>
     <string name="command_error_no_permission">L\'application n\'a pas les permissions nécessaires pour exécuter cette commande.</string>
     <string name="command_error_not_enabled">Cette commande n\'a pas été activé dans l\'application.</string>
@@ -87,5 +79,10 @@
     <string name="ring_reply_message_seconds">Le téléphone sonne pour %1$d secondes !</string>
     <string name="ring_reply_message">Le téléphone sonne pour %1$d minutes et %2$d secondes !</string>
     <string name="ring_error">Impossible de faire sonner le téléphone</string>
+    <string name="unused_app_restrictions_whitelist_dialog_title">Restrictions d\'application inutilisée</string>
+    <string name="unused_app_restrictions_whitelist_dialog_message">La non utilisation prolongée de Monitor Internetless peut provoquer la suppression automatique des autorisations de localisation ou de lecture des messages. Vous pouvez désactiver cette option dans les paramètres de l\'application.</string>
+    <string name="locate_timeout">Demande de localisation expirée (timeout)</string>
+    <string name="locate_network_alternative">La localisation GPS semble lente.\nVoici la localisation réseau :</string>
+    <string name="locate_network_replacement">Le GPS est désactivé.\nVoici une localisation réseau approximative :</string>
 
 </resources>

@@ -89,7 +89,8 @@
             android:name=".commander.LocationService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="location"/>
+            android:foregroundServiceType="location"
+            android:permission="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     </application>
 

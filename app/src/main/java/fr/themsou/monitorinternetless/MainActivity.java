@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,13 +21,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.util.Consumer;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.IntentCompat;
+import androidx.core.content.PackageManagerCompat;
+import androidx.core.content.UnusedAppRestrictionsConstants;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import fr.themsou.monitorinternetless.commander.RingCommandExecutor;
 import fr.themsou.monitorinternetless.ui.about.AboutActivity;
@@ -70,9 +76,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
         initNotificationsChannels();
-        checkBasePermissions();
-        //checkAdvancedPermissions();
-        checkIgnoreBatteryOptimization();
+        checkBasePermissions(() -> {
+            //checkAdvancedPermissions();
+
+            checkIgnoreBatteryOptimization(() -> {
+                checkUnusedAppRestrictionsWhitelist();
+            });
+        });
+
 
 
         // Disable ring
@@ -83,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             final AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, RingCommandExecutor.oldVolume, 0);
         }
-
         // Remove logged-in numbers
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -91,33 +101,30 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         editor.commit();
     }
 
-    public void checkBasePermissions(){
+    public void checkBasePermissions(Runnable onDone){
         if(!permissionRequester.isGranted(Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS)){
-            permissionRequester.grantSome(new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS}, new Consumer<Boolean>() {
-                @Override public void accept(Boolean accepted) {
-                    if(accepted){
-                        new AlertDialog.Builder(getApplicationContext())
-                                .setTitle(getString(R.string.restart_title))
-                                .setMessage(getString(R.string.restart_dialog))
-                                .setPositiveButton(getString(R.string.message_ok), new DialogInterface.OnClickListener() {
-                                    @Override public void onClick(DialogInterface dialog, int which) {
-                                        doRestart();
-                                    }
-                                }).show();
-                    }else{
-                        new AlertDialog.Builder(getApplicationContext())
-                                .setTitle(getString(R.string.error_no_permission_title))
-                                .setMessage(getString(R.string.error_no_permission))
-                                .setPositiveButton(getString(R.string.message_retry), new DialogInterface.OnClickListener() {
-                                    @Override public void onClick(DialogInterface dialog, int which) {
-                                        checkBasePermissions();
-                                    }
-                                }).setNegativeButton(getString(R.string.message_ok), new DialogInterface.OnClickListener(){ @Override public void onClick(DialogInterface dialog, int which){ } }).show();
-                    }
+            permissionRequester.grantSome(new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS}, accepted -> {
+                if(accepted){
+                    new AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.restart_title))
+                            .setMessage(getString(R.string.restart_dialog))
+                            .setPositiveButton(getString(R.string.message_ok), (dialog, which) -> doRestart()).show();
+                }else{
+                    new AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.error_no_permission_title))
+                            .setMessage(getString(R.string.error_no_permission))
+                            .setPositiveButton(getString(R.string.message_retry), (dialog, which) -> checkBasePermissions(onDone))
+                            .setNegativeButton(getString(R.string.message_ok), (dialog, which) -> {
+                                onDone.run();
+                            }).show();
                 }
             });
+        }else{
+            onDone.run();
         }
     }
+
+
     // Write settings permission (not used for the current commands)
     // This will only grant WRITE_SETTINGS
     // To grand WRITE_SECURE_SETTINGS, run
@@ -142,12 +149,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     // The app must execute commands at the time they are received.
     // Disabling the battery optimization is not mandatory,
     // but the user will be notified of this being able to fix eventual issues.
-    private void checkIgnoreBatteryOptimization() {
+    private void checkIgnoreBatteryOptimization(Runnable onDone) {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        if(sharedPref.getBoolean("ignoreBatteryOptimization", false)) return;
+        if(sharedPref.getBoolean("ignoreBatteryOptimization", false)){
+            onDone.run();
+            return;
+        }
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        if (pm == null || pm.isIgnoringBatteryOptimizations(getPackageName())) return;
+        if (pm == null || pm.isIgnoringBatteryOptimizations(getPackageName())){
+            onDone.run();
+            return;
+        }
 
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.dialog_battery_optimization_title))
@@ -157,13 +170,57 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     startActivity(intent);
+                    onDone.run();
                 })
                 .setNegativeButton(getString(R.string.message_ignore), (dialog, which) -> {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putBoolean("ignoreBatteryOptimization", true);
-                    editor.commit();
+                    editor.apply();
+                    onDone.run();
                 })
                 .show();
+    }
+
+    private void checkUnusedAppRestrictionsWhitelist(){
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        if(sharedPref.getBoolean("ignoreUnusedAppRestrictionWhitelist", false)) return;
+        MainActivity activity = this;
+        // Handle the current state of hibernation inspired from https://github.com/threema-ch/threema-android/blob/0159a5af2934127675483016fc1867fc85c8eb7d/app/src/main/java/ch/threema/app/preference/SettingsTroubleshootingFragment.java#L566
+        final ListenableFuture<Integer> future = PackageManagerCompat.getUnusedAppRestrictionsStatus(this);
+        Futures.addCallback(future, new FutureCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer result) {
+                switch (result) {
+                    case UnusedAppRestrictionsConstants.DISABLED:
+                    case UnusedAppRestrictionsConstants.ERROR:
+                    case UnusedAppRestrictionsConstants.FEATURE_NOT_AVAILABLE:
+                    case UnusedAppRestrictionsConstants.API_30_BACKPORT:
+                    case UnusedAppRestrictionsConstants.API_30:
+                        // Don't show the hibernation preference when hibernation is not available
+                        // or when app il already whitelisted
+                        break;
+                    case UnusedAppRestrictionsConstants.API_31:
+                        new AlertDialog.Builder(activity)
+                                .setTitle(getString(R.string.unused_app_restrictions_whitelist_dialog_title))
+                                .setMessage(getString(R.string.unused_app_restrictions_whitelist_dialog_message))
+                                .setPositiveButton(getString(R.string.message_ok), (dialog, which) -> {
+                                    Intent intent = IntentCompat.createManageUnusedAppRestrictionsIntent(getApplicationContext(), getPackageName());
+                                    startActivity(intent);
+                                })
+                                .setNegativeButton(getString(R.string.message_ignore), (dialog, which) -> {
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putBoolean("ignoreUnusedAppRestrictionWhitelist", true);
+                                    editor.apply();
+                                })
+                                .show();
+                        break;
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Throwable t) {
+                Log.e(TAG, "Could not get hibernation status", t);
+            }
+        }, ContextCompat.getMainExecutor(this));
     }
 
     public Toolbar getTopToolBar(){
@@ -201,11 +258,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         active = false;
     }
 
-    public void doRestart(){
+    public void doRestart() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
-        startActivity(getIntent());
-        // Animation
-        overridePendingTransition(0, 0);
+        Runtime.getRuntime().exit(0);
     }
 
     private void initNotificationsChannels(){

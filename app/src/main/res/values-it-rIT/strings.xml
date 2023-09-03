@@ -61,4 +61,25 @@
     <string name="info_longitude">Longitudine</string>
     <string name="info_bearing">Direzione</string>
     <string name="info_speed">Velocità</string>
+    <string name="unused_app_restrictions_whitelist_dialog_title">Limitazioni delle applicazioni non utilizzate</string>
+    <string name="unused_app_restrictions_whitelist_dialog_message">Il mancato utilizzo prolungato di Monitor Internetless può comportare la rimozione automatica delle autorizzazioni per individuare o leggere i messaggi. Puoi disattivare questa opzione nelle impostazioni dell\'app.</string>
+    <string name="locate_timeout">Richiesta di posizione scaduta (timeout)</string>
+    <string name="locate_network_alternative">La posizione GPS sembra lenta.
+\nEcco il percorso della rete:</string>
+    <string name="locate_network_replacement">Il GPS è disabilitato.
+\nEcco una posizione approssimativa della rete:</string>
+    <string name="notificationchannel_locate_title">Posizione</string>
+    <string name="notificationchannel_ring_title">Suoneria</string>
+    <string name="notificationchannel_ring_description">Notifica per avvisare il telefono che squilla con il comando !ring</string>
+    <string name="notificationchannel_locate_description">Notifica per avvisare di una localizzazione corrente per il comando !locate</string>
+    <string name="dialog_battery_optimization_title">Ottimizzazione della batteria</string>
+    <string name="dialog_battery_optimization_message">Se riscontri problemi nell\'esecuzione dei comandi, prova a disattivare l\'ottimizzazione della batteria per questa app.</string>
+    <string name="message_ignore">Ignorare</string>
+    <string name="locate_notification_title">Localizzazione in corso</string>
+    <string name="locate_notification_text">Un comando \"!locate\" fa sì che il dispositivo venga localizzato...</string>
+    <string name="ring_notification_title">Suoneria</string>
+    <string name="ring_notification_text">Il telefono sta squillando ! Premere per disattivare l\'audio.</string>
+    <string name="ring_reply_message_seconds">Il telefono squilla per %1$d secondi!</string>
+    <string name="ring_reply_message">Il telefono squilla per %1$d minuti e %2$d secondi!</string>
+    <string name="ring_error">Impossibile far squillare il telefono</string>
 </resources>

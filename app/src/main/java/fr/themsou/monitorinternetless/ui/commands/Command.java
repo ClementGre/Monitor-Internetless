@@ -1,11 +1,14 @@
 package fr.themsou.monitorinternetless.ui.commands;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Switch;
 
 import androidx.core.util.Consumer;
+
+import java.util.Arrays;
 
 import fr.themsou.monitorinternetless.MainActivity;
 import fr.themsou.monitorinternetless.PermissionRequester;
@@ -63,17 +66,28 @@ public class Command {
                 updateEnableStatus(activity.getApplicationContext());
                 acceptChange.accept(null);
             }else{
-                activity.permissionRequester.grantSome(permissions, new Consumer<Boolean>() {
-                    @Override public void accept(Boolean accepted) {
-                        if(accepted){
-                            enabled = true;
-                            updateEnableStatus(activity);
-                            acceptChange.accept(null);
-                        }else{
-                            switchEnable.setChecked(false);
-                        }
-                    }
-                });
+                // Any location related permission
+                if (Arrays.stream(permissions).anyMatch(s -> s.equals(Manifest.permission.ACCESS_COARSE_LOCATION) || s.equals(Manifest.permission.ACCESS_FINE_LOCATION) || s.equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION))){
+                    new AlertDialog.Builder(activity)
+                            .setTitle(activity.getString(R.string.dialog_permission_location_title))
+                            .setMessage(activity.getString(R.string.dialog_permission_location_message))
+                            .setPositiveButton(activity.getString(R.string.message_ok), (dialog, which) -> {
+                                activity.permissionRequester.grantSome(permissions, accepted -> {
+                                    if(accepted){
+                                        enabled = true;
+                                        updateEnableStatus(activity);
+                                        acceptChange.accept(null);
+                                    }else{
+                                        switchEnable.setChecked(false);
+                                    }
+                                });
+                            })
+                            .setNegativeButton(activity.getString(R.string.message_reject), (dialog, which) -> {
+                                switchEnable.setChecked(false);
+                            })
+                            .setCancelable(false)
+                            .show();
+                }
             }
         }else{
             enabled = false;

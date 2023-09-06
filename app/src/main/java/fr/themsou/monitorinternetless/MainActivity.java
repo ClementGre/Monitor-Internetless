@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
         initNotificationsChannels();
-        checkBasePermissions(() -> {
+        checkSMSPermissions(() -> {
             //checkAdvancedPermissions();
 
             checkIgnoreBatteryOptimization(() -> {
@@ -101,27 +101,47 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         editor.commit();
     }
 
-    public void checkBasePermissions(Runnable onDone){
+    public void checkSMSPermissions(Runnable onDone){
         if(!permissionRequester.isGranted(Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS)){
-            permissionRequester.grantSome(new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS}, accepted -> {
-                if(accepted){
-                    new AlertDialog.Builder(this)
-                            .setTitle(getString(R.string.restart_title))
-                            .setMessage(getString(R.string.restart_dialog))
-                            .setPositiveButton(getString(R.string.message_ok), (dialog, which) -> doRestart()).show();
-                }else{
-                    new AlertDialog.Builder(this)
-                            .setTitle(getString(R.string.error_no_permission_title))
-                            .setMessage(getString(R.string.error_no_permission))
-                            .setPositiveButton(getString(R.string.message_retry), (dialog, which) -> checkBasePermissions(onDone))
-                            .setNegativeButton(getString(R.string.message_ok), (dialog, which) -> {
-                                onDone.run();
-                            }).show();
-                }
-            });
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.dialog_permission_sms_title))
+                    .setMessage(getString(R.string.dialog_permission_sms_message))
+                    .setPositiveButton(getString(R.string.message_ok), (dialog0, which0) -> {
+                        checkSMSPermissionWithoutDisclaimer(onDone);
+                    })
+                    .setNegativeButton(getString(R.string.message_reject), (dialog, which) -> {
+                        checkSMSPermissionRefused(onDone);
+                    })
+                    .setCancelable(false)
+                    .show();
         }else{
             onDone.run();
         }
+    }
+    public void checkSMSPermissionWithoutDisclaimer(Runnable onDone){
+        permissionRequester.grantSome(new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS}, accepted -> {
+            if(accepted){
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.restart_title))
+                        .setMessage(getString(R.string.restart_dialog))
+                        .setPositiveButton(getString(R.string.message_ok), (dialog, which) -> doRestart())
+                        .setCancelable(false)
+                        .show();
+            }else{
+                checkSMSPermissionRefused(onDone);
+            }
+        });
+    }
+    public void checkSMSPermissionRefused(Runnable onDone){
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.error_no_permission_title))
+                .setMessage(getString(R.string.error_no_permission))
+                .setPositiveButton(getString(R.string.message_retry), (dialog, which) -> checkSMSPermissionWithoutDisclaimer(onDone))
+                .setNegativeButton(getString(R.string.message_ok), (dialog, which) -> {
+                    onDone.run();
+                })
+                .setCancelable(false)
+                .show();
     }
 
 

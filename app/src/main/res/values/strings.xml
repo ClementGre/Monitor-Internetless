@@ -30,6 +30,7 @@
     <string name="message_retry">Réessayer</string>
     <string name="message_add">Ajouter</string>
     <string name="message_cancel">Annuler</string>
+    <string name="message_reject">Refuser</string>
     <string name="add_number_title">Ajouter un numéro</string>
     <string name="add_number_dialog">Saisissez le numéro à ajouter</string>
     <string name="restart_title">Application des modifications</string>
@@ -84,5 +85,9 @@
     <string name="locate_timeout">Demande de localisation expirée (timeout)</string>
     <string name="locate_network_alternative">La localisation GPS semble lente.\nVoici la localisation réseau :</string>
     <string name="locate_network_replacement">Le GPS est désactivé.\nVoici une localisation réseau approximative :</string>
+    <string name="dialog_permission_sms_title">Accès aux SMS</string>
+    <string name="dialog_permission_sms_message">Les commandes étant envoyées par SMS, Monitor Internetless a besoin de pouvoir recevoir, lire et envoyer des SMS. Ces données ne sont utilisées que pour les commandes de l\'application et seuls les messages contenant le mot clé d\'une commande seront lus.</string>
+    <string name="dialog_permission_location_message">Cette commande nécessite à Monitor Internetless d\'accéder à votre localisation, même en arrière plan. La localisation ne sera utilisée que lors de l\'exécution d\'une commande de localisation, et ne sera pas enregistrée.</string>
+    <string name="dialog_permission_location_title">Accès à la localisation</string>
 
 </resources>

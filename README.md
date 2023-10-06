@@ -11,7 +11,7 @@ The data is transmitted by SMS which allows users to find their lost phone even 
 - ``!locate``: Request a new GPS location of the phone (not using Google Play Services)
 - ``!ring <duration>``: Make the phone ring for <duration> seconds.
 
-It is impossible to activate GPS or mobile data without user interaction in recent versions of Android (not rooted) then it is impossible to have commands such as ``!gps_on`` or ``!data_on``.
+It is impossible to activate GPS or mobile data without user interaction in recent versions of Android (not rooted) then it is impossible to switch on/off the GPS or mobile data.
 
 ### Commands access
 - **Password:** A password can be set to prevent anyone from sending commands to the phone.

@@ -82,4 +82,9 @@
     <string name="ring_reply_message_seconds">Il telefono squilla per %1$d secondi!</string>
     <string name="ring_reply_message">Il telefono squilla per %1$d minuti e %2$d secondi!</string>
     <string name="ring_error">Impossibile far squillare il telefono</string>
+    <string name="message_reject">Rifiutare</string>
+    <string name="dialog_permission_sms_title">Accesso agli SMS</string>
+    <string name="dialog_permission_sms_message">Poiché i comandi vengono inviati tramite SMS, Monitor Internetless deve essere in grado di ricevere, leggere e inviare messaggi SMS. Questi dati vengono utilizzati solo per i comandi dell\'applicazione e verranno letti solo i messaggi contenenti la parola chiave per un comando.</string>
+    <string name="dialog_permission_location_message">Questo comando richiede che Monitor Internetless acceda alla tua posizione, anche in background. La posizione verrà utilizzata solo durante l\'esecuzione di un comando di posizione e non verrà salvata.</string>
+    <string name="dialog_permission_location_title">Accesso alla localizzazione</string>
 </resources>

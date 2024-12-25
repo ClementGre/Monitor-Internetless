@@ -1,2 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="title_numbers">Numbers</string>
+    <string name="title_numbers_full">Authorized Numbers</string>
+    <string name="title_commands">Commands</string>
+    <string name="title_settings">Settings</string>
+    <string name="menu_about">About</string>
+    <string name="button_more">More</string>
+    <string name="numberstab_description">Select in this tab the numbers that should be able to control and get informations about your phone by SMS.</string>
+    <string name="numberstab_addnumber">Add a number</string>
+    <string name="number_already_exist">This phone number has already been added</string>
+    <string name="addnumber_capture">Enter the phone number</string>
+    <string name="addnumber_contact">From contacts</string>
+    <string name="number_input_owner">Name</string>
+    <string name="number_input_number">Number</string>
+    <string name="number_do_not_have_number">This contact does not have any phone number</string>
+    <string name="command_title_ring">!ring [duration in seconds]</string>
+    <string name="command_desc_locate">Sends the GPS or network location of the phone (GPS must be enabled).</string>
+    <string name="commandstab_description">List of available commands. Tu execute a command, one have to send it to this phone through a SMS message from an authorized number.\nFor example, the message \"!locate\" will request the phone location, which will be sent back by SMS.</string>
+    <string name="command_error_no_permission">The app does not have the required permissions to execute this command.</string>
+    <string name="command_error_not_enabled">This command has not been enabled in the application.</string>
+    <string name="error_no_permission_title">Permissions not granted</string>
+    <string name="message_ok">OK</string>
+    <string name="message_retry">Try Again</string>
+    <string name="message_add">Add</string>
+    <string name="message_cancel">Cancel</string>
+    <string name="message_reject">Dismiss</string>
+    <string name="add_number_title">Add a phone number</string>
+    <string name="add_number_dialog">Enter the phone number to add</string>
+    <string name="restart_title">Applying changes</string>
+    <string name="error_open_permission_settings">You have to grant the app access to edit system settings (enable GPS, mobile data...) for some feature to work correctly.</string>
+    <string name="setting_password_title">Password</string>
+    <string name="command_desc_info">Sends information about the phone: battery level, last location...</string>
+    <string name="command_desc_ring">Make the phone ring for 10 seconds. If an argument is provided, it will define the duration of the ringing. !ring 120 will make the phone ring for 2 minutes.</string>
+    <string name="error_no_permission">The application can\'t receive or send any SMS. It will then not be able to run commands sent by SMS</string>
+    <string name="restart_dialog">The app will restart to apply changes and setup the SMS receiver.</string>
+</resources>

@@ -27,7 +27,7 @@ It is impossible to activate GPS or mobile data without user interaction in rece
 ## Contributing
 
 The app can be translated on Weblate:
-[https://weblate.pdf4teachers.org/projects/monitor-internetless](https://weblate.pdf4teachers.org/projects/monitor-internetless)
+[https://weblate.pdf4teachers.org/projects/monitor-internetless](https://weblate.clgr.io/projects/monitor-internetless)
 
 
 

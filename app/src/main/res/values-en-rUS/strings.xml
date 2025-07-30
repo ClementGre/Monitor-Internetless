@@ -34,4 +34,55 @@
     <string name="command_desc_ring">Make the phone ring for 10 seconds. If an argument is provided, it will define the duration of the ringing. !ring 120 will make the phone ring for 2 minutes.</string>
     <string name="error_no_permission">The application can\'t receive or send any SMS. It will then not be able to run commands sent by SMS</string>
     <string name="restart_dialog">The app will restart to apply changes and setup the SMS receiver.</string>
+    <string name="setting_everyone_allowed_description">Anyone will be able to send commands on your phone. It is recommended to enable the password feature with this one.</string>
+    <string name="notificationchannel_ring_description">Notification alerting that the phone is ringing due to a received !ring command</string>
+    <string name="unused_app_restrictions_whitelist_dialog_message">Extended non-use of Monitor Internetless may cause location or message reading permissions to be automatically deleted. You can disable this option in the app settings.</string>
+    <string name="command_password_required">A password is required. Log yourself with !login [password]</string>
+    <string name="command_wrong_password">Incorrect password!\nSend \"!login [Password]\" replacing [Password] by the password you defined in the app.</string>
+    <string name="notificationchannel_ring_title">Ring</string>
+    <string name="dialog_battery_optimization_message">If you experience issues with command execution, try disabling battery optimization for this app.</string>
+    <string name="setting_password_description">Ask to send the password with !login when someone tries to send commands. All users are disconnected when starting the app.</string>
+    <string name="setting_everyone_allowed_title">Allow all numbers</string>
+    <string name="developer">Developer: <a href="https://github.com/ClementGre">Clément Grennerat</a></string>
+    <string name="github">GitHub: <a href="https://github.com/ClementGre/Monitor-Internetless">ClementGre/Monitor-Internetless</a></string>
+    <string name="issue"><a href="https://github.com/ClementGre/Monitor-Internetless/issues/new">Report an issue</a></string>
+    <string name="command_logged_in">You are authenticated: you can now send commands!</string>
+    <string name="command_password_help">Send \"!login [Password]\" replacing [Password] by the password you defined in the app.</string>
+    <string name="unknown">Unknown</string>
+    <string name="info_enabled">Enabled</string>
+    <string name="info_disabled">Disabled</string>
+    <string name="info_battery">Battery</string>
+    <string name="info_celular">Roaming data</string>
+    <string name="info_power_saver">Power saving mode</string>
+    <string name="info_last_location">Last location</string>
+    <string name="info_gps_disabled">GPS disabled</string>
+    <string name="info_accuracy">Accuracy</string>
+    <string name="info_location_unknown">Unknown location</string>
+    <string name="info_error_gps_disabled">GPS is disabled: unable to fetch the current location.</string>
+    <string name="info_localizing">Locating...\nIt might take up to a minute</string>
+    <string name="info_latitude">Latitude</string>
+    <string name="info_longitude">Longitude</string>
+    <string name="info_bearing">Direction</string>
+    <string name="info_speed">Speed</string>
+    <string name="notificationchannel_locate_title">Location</string>
+    <string name="notificationchannel_locate_description">Notification to inform of a tracking of the phone location due to a received !locate command</string>
+    <string name="dialog_battery_optimization_title">Battery optimization</string>
+    <string name="message_ignore">Ignore</string>
+    <string name="locate_notification_title">Tracking your location</string>
+    <string name="locate_notification_text">A command \"!locate\" is locating your device...</string>
+    <string name="ring_notification_title">Ring</string>
+    <string name="ring_notification_text">The phone rings ! Touch to stop the ring.</string>
+    <string name="ring_reply_message_seconds">The phone rings for %1$d seconds!</string>
+    <string name="ring_reply_message">The phone rings for %1$d minutes and %2$d seconds!</string>
+    <string name="ring_error">Unable to make the phone ring</string>
+    <string name="unused_app_restrictions_whitelist_dialog_title">Unused app restrictions</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="app_version">Version 1.0.4</string>
+    <string name="locate_timeout">Location request expired (timeout)</string>
+    <string name="locate_network_alternative">GPS location seems slow.\nHere is the network location:</string>
+    <string name="locate_network_replacement">GPS is disabled.\nHere is an approximate network location:</string>
+    <string name="dialog_permission_sms_title">SMS access</string>
+    <string name="dialog_permission_sms_message">Since commands are sent via SMS, Monitor Internetless needs to be able to receive, read, and send SMS messages. This data is only used for app commands, and only messages containing a command keyword will be parsed by Monitor Internetless.</string>
+    <string name="dialog_permission_location_message">This command requires Monitor Internetless to access your location, even in the background. The location will only be requested when executing a location command, and will not be saved.</string>
+    <string name="dialog_permission_location_title">Location access</string>
 </resources>
